@@ -1,0 +1,111 @@
+<template>
+  <dialog
+    ref="dialogRef"
+    data-name="dialog"
+    :class="renderClass(`modal ${responsiveClass}`, 'dialog')"
+    v-bind="attrsToBind"
+  >
+    <form
+      method="dialog"
+      data-name="form"
+      :class="renderClass('modal-box', 'form')"
+    >
+      <template v-if="eager || modelValue">
+        <button
+          v-if="closeButton"
+          data-name="closeButton"
+          :class="renderClass('btn btn-sm btn-circle btn-ghost absolute right-2 top-2', 'closeButton')"
+        >
+          ✕
+        </button>
+        <h3
+          v-if="title"
+          data-name="title"
+          :class="renderClass('font-bold text-lg', 'title')"
+        >
+          {{ title }}
+        </h3>
+        <slot />
+      </template>
+    </form>
+    <form
+      v-if="backdropClose"
+      method="dialog"
+      class="modal-backdrop"
+      data-name="backdropForm"
+      :class="renderClass('modal-backdrop', 'backdropForm')"
+    >
+      <button
+        data-name="backdropCloseButton"
+        :class="renderClass('', 'backdropCloseButton')"
+      >
+        close
+      </button>
+    </form>
+  </dialog>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, toRef, watch } from "vue";
+import { useEventListener } from "@vueuse/core";
+export default defineComponent({
+  name: "AppModal",
+  inheritAttrs: false,
+  props: {
+    modelValue: {
+      type: [Boolean, Number],
+      default: false,
+    },
+    title: {
+      type: String,
+      default: "",
+    },
+    eager: {
+      type: Boolean,
+      default: false,
+    },
+    responsiveClass: {
+      type: [String, Array],
+      default: ()=> inject('d-modal-responsive-class', 'modal-bottom sm:modal-middle'),
+    },
+    backdropClose: {
+      type: Boolean,
+      default: true,
+    },
+    closeButton: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const { renderClass, attrsToBind } = useRenderClass("DModal");
+    const dialogRef = ref<HTMLDialogElement>();
+    const showModal = () => {
+      dialogRef.value?.showModal();
+    };
+    const closeModal = () => {
+      dialogRef.value?.close();
+    };
+    watch(
+      () => props.modelValue,
+      (value) => {
+        if (value) {
+          showModal();
+        } else {
+          closeModal();
+        }
+      }
+    );
+    onMounted(() => {
+      useEventListener(dialogRef.value, "close", () => {
+        emit("update:modelValue", false);
+      });
+    });
+
+    return { dialogRef, renderClass, attrsToBind };
+  },
+});
+</script>
+
+<style scoped></style>
