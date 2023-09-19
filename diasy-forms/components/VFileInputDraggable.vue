@@ -1,0 +1,100 @@
+<template>
+  <VField
+    v-slot="{handleBlur, handleChange, errorMessage}"
+    :name="name"
+  >
+    <label
+      :class="renderClass(`block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 ${wrapperClass}`,'label')"
+      v-bind="attrsToBind"
+    >
+      <input
+        :id="id"
+        type="file"
+        :accept="accept"
+        :class="renderClass('hidden', 'input')"
+        @blur="handleBlur"
+        @change="($event)=>{handleChange($event);handleInput($event)}"
+      >
+      <span
+        v-if="!fileUploaded"
+        :class="renderClass('absolute inset-0 pointer-events-none t-center', 'span')"
+      >
+        <slot name="selectFile">
+          <span class="text-center block">
+            {{ $t('drop file here') }}
+          </span>
+        </slot>
+      </span>
+      <div v-else>
+        {{ fileName }}
+        <img
+          :src="getImageUrl"
+          alt=""
+        >
+      </div>
+    </label>
+    <label
+      data-name="messageLabel"
+      :class="
+        renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
+      "
+    >
+      <span
+        data-name="messageSpan"
+        :class="
+          renderClass(
+            'label-text-alt text-error text-2xs leading-3',
+            'messageSpan'
+          )
+        "
+      >
+        {{ errorMessage || successMessage }}</span>
+    </label>
+  </VField>
+</template>
+<script setup lang="ts">
+
+interface Props{
+  modelValue: string,
+  name: string,
+  id?: string,
+  accept?: string,
+  multiple?: boolean,
+  wrapperClass?: string,
+  successMessage: string,
+}
+const props = withDefaults(defineProps<Props>(), {
+  id: "drag",
+  accept: "image/*",
+  multiple: false,
+  wrapperClass: '',
+  successMessage: () => inject("v--file-input-draggable-text-success-msg", ""),
+});
+
+const fileUploaded = ref(false)
+const imageUrl = ref<Blob | MediaSource>()
+const files = ref([])
+const fileName = ref()
+const emit=defineEmits(['update:modelValue', 'input'])
+
+const handleInput = ($e: any) => {
+  fileUploaded.value = true
+  emit(
+    "update:modelValue",
+    props.multiple ? $e.target.files : $e.target.files[0]
+  );
+  files.value = Array.from($e.target.files)
+  fileName.value =  $e.target.files[0].name
+};
+
+watch(files, (newFiles) => {
+  emit('input', newFiles)
+  imageUrl.value = newFiles[0]
+})
+
+const getImageUrl = computed(() => {
+  return imageUrl.value ? window.URL.createObjectURL(imageUrl.value) : ''
+})
+
+const { renderClass, attrsToBind } = useRenderClass('VFileInputDraggable');
+</script>
