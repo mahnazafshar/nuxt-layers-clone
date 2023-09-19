@@ -4,11 +4,13 @@
     :name="name"
   >
     <label
+      data-name="label"
       :class="renderClass(`block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 ${wrapperClass}`,'label')"
       v-bind="attrsToBind"
     >
       <input
         :id="id"
+        data-name="input"
         type="file"
         :accept="accept"
         :class="renderClass('hidden', 'input')"
@@ -17,7 +19,8 @@
       >
       <span
         v-if="!fileUploaded"
-        :class="renderClass('absolute inset-0 pointer-events-none t-center', 'span')"
+        data-name="text"
+        :class="renderClass('absolute inset-0 pointer-events-none t-center', 'text')"
       >
         <slot name="selectFile">
           <span class="text-center block">
@@ -25,12 +28,25 @@
           </span>
         </slot>
       </span>
-      <div v-else>
-        {{ fileName }}
-        <img
-          :src="getImageUrl"
-          alt=""
+      <div
+        v-else
+        class="relative"
+      >
+        <slot name="fileImage">
+          <img
+            :src="getImageUrl"
+            alt=""
+          >
+        </slot>
+        <div
+          v-if="fileName"
+          class="tw-flex absolute top-0 left-0 tw-cursor-pointer"
+          @click.stop.prevent="onDelete"
         >
+          <icon-base class="w-6 h-6">
+            <icon-not-confirmed />
+          </icon-base>
+        </div>
       </div>
     </label>
     <label
@@ -74,7 +90,7 @@ const props = withDefaults(defineProps<Props>(), {
 const fileUploaded = ref(false)
 const imageUrl = ref<Blob | MediaSource>()
 const files = ref([])
-const fileName = ref()
+const fileName = ref('')
 const emit=defineEmits(['update:modelValue', 'input'])
 
 const handleInput = ($e: any) => {
@@ -95,6 +111,12 @@ watch(files, (newFiles) => {
 const getImageUrl = computed(() => {
   return imageUrl.value ? window.URL.createObjectURL(imageUrl.value) : ''
 })
+
+const onDelete = () => {
+  files.value = []
+  fileName.value = ''
+  fileUploaded.value = false
+}
 
 const { renderClass, attrsToBind } = useRenderClass('VFileInputDraggable');
 </script>
