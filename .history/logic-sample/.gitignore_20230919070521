@@ -15,8 +15,6 @@ dist
 
 # Local History
 .history
-.history/diasy-forms/*
-.history/examine-layers/*
 
 # VSCode
 .vscode/
