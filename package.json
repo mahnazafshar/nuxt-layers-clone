@@ -4,6 +4,7 @@
     "scripts": {
       "preInstall": "cd global-composables && npm install && cd ../base && npm install && cd ../base-api && npm install && cd ../base-diasy-ui && npm install && cd ../diasy-forms && npm install && cd ../code-generator && npm install",
       "upgradeNuxt": "cd global-composables && npx nuxi upgrade && cd ../base && npx nuxi upgrade && cd ../base-api && npx nuxi upgrade && cd ../base-diasy-ui && npx nuxi upgrade && cd ../diasy-forms && npx nuxi upgrade && cd ../code-generator && npx nuxi upgrade",
-      "g":"cd code-generator && yarn plop"
+      "g":"cd code-generator && yarn plop",
+      "upgrade":"cd global-composables && npx nuxi upgrade && cd ../base && npx nuxi upgrade && cd ../base-api && npx nuxi upgrade && cd ../base-diasy-ui && npx nuxi upgrade && cd ../diasy-forms && npx nuxi upgrade"
     }
   }
