@@ -2,10 +2,11 @@
   <VField
     v-slot="{handleBlur, handleChange, errorMessage}"
     :name="name"
+    :class="wrapperClass"
   >
     <label
       data-name="label"
-      :class="renderClass(`block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 ${wrapperClass}`,'label')"
+      :class="renderClass(`block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 `,'label')"
       v-bind="attrsToBind"
     >
       <input
@@ -18,7 +19,7 @@
         @change="($event)=>{handleChange($event);handleInput($event)}"
       >
       <span
-        v-if="!fileUploaded"
+        v-if="!hasAnyFile"
         data-name="text"
         :class="renderClass('absolute inset-0 pointer-events-none t-center', 'text')"
       >
@@ -32,7 +33,10 @@
         v-else
         class="relative"
       >
-        <slot name="fileImage">
+        <slot
+          name="fileImage"
+          :src="getImageUrl"
+        >
           <img
             :src="getImageUrl"
             alt=""
@@ -43,9 +47,9 @@
           class="tw-flex absolute top-0 left-0 tw-cursor-pointer"
           @click.stop.prevent="onDelete"
         >
-          <icon-base class="w-6 h-6">
-            <icon-not-confirmed />
-          </icon-base>
+          <slot name="deleteFile">
+            <button class="btn btn-sm btn-circle btn-error text-white">✕</button>
+          </slot>
         </div>
       </div>
     </label>
@@ -71,30 +75,29 @@
 <script setup lang="ts">
 
 interface Props{
-  modelValue: string,
+  modelValue?: string,
   name: string,
   id?: string,
   accept?: string,
   multiple?: boolean,
   wrapperClass?: string,
-  successMessage: string,
+  successMessage?: string,
 }
 const props = withDefaults(defineProps<Props>(), {
   id: "drag",
   accept: "image/*",
   multiple: false,
   wrapperClass: '',
-  successMessage: () => inject("v--file-input-draggable-text-success-msg", ""),
+  successMessage: () => inject("v-file-input-draggable-text-success-msg", ""),
 });
 
-const fileUploaded = ref(false)
 const imageUrl = ref<Blob | MediaSource>()
 const files = ref([])
 const fileName = ref('')
 const emit=defineEmits(['update:modelValue', 'input'])
+const hasAnyFile = computed(()=>unref(files).length>0)
 
 const handleInput = ($e: any) => {
-  fileUploaded.value = true
   emit(
     "update:modelValue",
     props.multiple ? $e.target.files : $e.target.files[0]
@@ -115,7 +118,6 @@ const getImageUrl = computed(() => {
 const onDelete = () => {
   files.value = []
   fileName.value = ''
-  fileUploaded.value = false
 }
 
 const { renderClass, attrsToBind } = useRenderClass('VFileInputDraggable');

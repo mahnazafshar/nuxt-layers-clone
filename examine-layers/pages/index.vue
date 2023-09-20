@@ -87,9 +87,9 @@
   const clickMe=()=>{
     navigateTo({name:'mahnaz'})
   }
-  const fetchHome=useHomeService();
-  onMounted(()=>{
-    fetchHome();
-  })
+  // const fetchHome=useHomeService();
+  // onMounted(()=>{
+  //   fetchHome();
+  // })
 </script>
   
