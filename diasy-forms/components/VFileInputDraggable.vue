@@ -34,7 +34,7 @@
         class="relative"
       >
         <slot
-          name="fileImage"
+          name="preview"
           :src="getImageUrl"
         >
           <img
