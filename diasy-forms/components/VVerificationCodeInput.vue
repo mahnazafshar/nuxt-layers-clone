@@ -79,9 +79,6 @@ export default {
     const {
       value: inputValue,
       errorMessage,
-      handleBlur,
-      handleChange,
-      meta,
       setValue,
     } = useField(toRef(props.name), undefined, {
       ...(props.modelValue != undefined
@@ -115,10 +112,8 @@ export default {
         activityIndex.value = index - 1;
       }
       if (code.value[index]?.toString()?.length > 1) {
-        code.value[index] = parseInt(e.data);
+        code.value[index] = parseInt(e.data as string);
       }
-      console.log("after", childrenRef.value[index].value);
-      console.log("code is ", unref(code));
       if (unref(activityIndex) <= props.length - 1) {
         childrenRef.value[unref(activityIndex)].focus();
         childrenRef.value[unref(activityIndex)].select();

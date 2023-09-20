@@ -5,7 +5,7 @@
       verification code input :{{ code }}
 
       <v-verification-code-input
-        v-model="code"
+   
         name="code"
         :length="4"
         data-input-delete="h-12 w-12"
