@@ -1,6 +1,6 @@
 <template>
   <div>
-    <t-table :items="tableItems" :fields="TableFields">
+    <!-- <t-table :items="tableItems" :fields="TableFields">
       <template #card-header="{ data }">{{ data }}</template>
     </t-table>
     <test-d-rating></test-d-rating>
@@ -8,7 +8,8 @@
     <test-d-dropdown></test-d-dropdown>
     <test-alert></test-alert>
 
-    <test-v-select></test-v-select>
+    <test-v-select></test-v-select> -->
+    <test-v-file-input-draggable></test-v-file-input-draggable>
   </div>
 </template>
 
