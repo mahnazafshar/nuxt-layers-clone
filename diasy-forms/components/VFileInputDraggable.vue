@@ -25,7 +25,7 @@
       >
         <slot name="selectFile">
           <span class="text-center block">
-            {{ $t('drop file here') }}
+            {{ title }}
           </span>
         </slot>
       </span>
@@ -82,6 +82,7 @@ interface Props{
   multiple?: boolean,
   wrapperClass?: string,
   successMessage?: string,
+  title: string,
 }
 const props = withDefaults(defineProps<Props>(), {
   id: "drag",
@@ -89,6 +90,7 @@ const props = withDefaults(defineProps<Props>(), {
   multiple: false,
   wrapperClass: '',
   successMessage: () => inject("v-file-input-draggable-text-success-msg", ""),
+  title: 'فایل را اینجا رها کنید...',
 });
 
 const imageUrl = ref<Blob | MediaSource>()

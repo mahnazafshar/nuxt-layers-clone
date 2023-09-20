@@ -12,6 +12,7 @@
         <v-file-input-draggable
           name="imageInput"
           class="w-48 h-48"
+          title="آپلود فایل"
         >
             <template #preview="getImageUrl">
                 <img :src="getImageUrl.src" alt="file image" class="h-48 w-48 relative" />
