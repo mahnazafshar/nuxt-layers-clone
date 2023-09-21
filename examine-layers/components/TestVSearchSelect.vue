@@ -1,99 +1,96 @@
 <template>
-  <v-search-select :data="data1"></v-search-select>
+  <v-search-select :data="data" :search-keys="['lastName']">
+    <template #item="{item,index}">
+      <span>{{ item.name }}-{{ item.lastName }}</span>
+    </template>
+  </v-search-select>
 </template>
 <script lang="ts" setup>
 interface DataItem {
-  firstName: string
-  lastName: string
+  name: string;
+  lastName: string;
 }
-const data1 = [
-  'John Smith',
-  'John Doe',
-  'Jane Doe',
-  'Phillip Green',
-  'Peter Brown',
-]
 
 const data = ref<DataItem[]>([
   {
-    firstName: 'Roslyn',
-    lastName: 'Mitchell',
+    name: "Roslyn",
+    lastName: "Mitchell",
   },
   {
-    firstName: 'Cathleen',
-    lastName: 'Matthews',
+    name: "Cathleen",
+    lastName: "Matthews",
   },
   {
-    firstName: 'Carleton',
-    lastName: 'Harrelson',
+    name: "Carleton",
+    lastName: "Harrelson",
   },
   {
-    firstName: 'Allen',
-    lastName: 'Moores',
+    name: "Allen",
+    lastName: "Moores",
   },
   {
-    firstName: 'John',
-    lastName: 'Washington',
+    name: "John",
+    lastName: "Washington",
   },
   {
-    firstName: 'Brooke',
-    lastName: 'Colton',
+    name: "Brooke",
+    lastName: "Colton",
   },
   {
-    firstName: 'Mary',
-    lastName: 'Rennold',
+    name: "Mary",
+    lastName: "Rennold",
   },
   {
-    firstName: 'Nanny',
-    lastName: 'Field',
+    name: "Nanny",
+    lastName: "Field",
   },
   {
-    firstName: 'Chasity',
-    lastName: 'Michael',
+    name: "Chasity",
+    lastName: "Michael",
   },
   {
-    firstName: 'Oakley',
-    lastName: 'Giles',
+    name: "Oakley",
+    lastName: "Giles",
   },
   {
-    firstName: 'Johanna',
-    lastName: 'Shepherd',
+    name: "Johanna",
+    lastName: "Shepherd",
   },
   {
-    firstName: 'Maybelle',
-    lastName: 'Wilkie',
+    name: "Maybelle",
+    lastName: "Wilkie",
   },
   {
-    firstName: 'Dawson',
-    lastName: 'Rowntree',
+    name: "Dawson",
+    lastName: "Rowntree",
   },
   {
-    firstName: 'Manley',
-    lastName: 'Pond',
+    name: "Manley",
+    lastName: "Pond",
   },
   {
-    firstName: 'Lula',
-    lastName: 'Sawyer',
+    name: "Lula",
+    lastName: "Sawyer",
   },
   {
-    firstName: 'Hudson',
-    lastName: 'Hext',
+    name: "Hudson",
+    lastName: "Hext",
   },
   {
-    firstName: 'Alden',
-    lastName: 'Senior',
+    name: "Alden",
+    lastName: "Senior",
   },
   {
-    firstName: 'Tory',
-    lastName: 'Hyland',
+    name: "Tory",
+    lastName: "Hyland",
   },
   {
-    firstName: 'Constance',
-    lastName: 'Josephs',
+    name: "Constance",
+    lastName: "Josephs",
   },
   {
-    firstName: 'Larry',
-    lastName: 'Kinsley',
+    name: "Larry",
+    lastName: "Kinsley",
   },
-])
+]);
 </script>
