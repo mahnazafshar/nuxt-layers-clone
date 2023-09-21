@@ -4,14 +4,17 @@
       <span>{{ item.name }}-{{ item.lastName }}</span>
     </template>
   </v-search-select> -->
+  <div>
+  <d-button @click="open">show modal</d-button>
   <d-modal-searchable-list :data="data"></d-modal-searchable-list>
+  </div>
 </template>
 <script lang="ts" setup>
 interface DataItem {
   name: string;
   lastName: string;
 }
-
+const { open } = useUiState("province-city-dialog");
 const data = ref<DataItem[]>([
   {
     name: "Roslyn",
