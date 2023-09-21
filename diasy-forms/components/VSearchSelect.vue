@@ -1,18 +1,29 @@
 <template>
-  <div>
-    <v-text-input v-model="input" name="search"></v-text-input>
-    <div class="flex flex-col">
+  <div
+    data-name="container"
+    :class="renderClass('', 'container')"
+    v-bind="attrsToBind"
+  >
+    <v-text-input
+      v-model="input"
+      name="search"
+      data-name="input"
+      :class="renderClass('', 'input')"
+    ></v-text-input>
+    <div data-name="wrapper" :class="renderClass('flex flex-col', 'wrapper')">
       <template v-if="results.length > 0">
         <div v-for="(result, index) in results" :key="`result-${index}`">
-          <div class="flex flex-col">
+          <slot name="item" :item="result.item" :index="result.refIndex">
             <span>
-              {{ result.item.firstName }} {{ result.item.lastName }}
+              {{ result.item.name }}
             </span>
-          </div>
+          </slot>
         </div>
       </template>
       <template v-else>
-        <div class="text-center pt-8 pb-4 opacity-80">No Results Found</div>
+        <slot name="empty">
+          <div class="text-center pt-8 pb-4 opacity-80">نتیجه ای یافت نشد!</div>
+        </slot>
       </template>
     </div>
   </div>
@@ -31,36 +42,26 @@ export default {
       required: true,
     },
     searchKeys: {
-      type: String,
-      default: "",
+      type: Array as PropType<string[]>,
+      default: () => ["name"],
     },
   },
   setup(props) {
     const input = ref<string>("");
-    const filterBy = ref("both");
-    const keys = computed(() => {
-      console.log("keys", props.data);
-      return [];
-      // if (filterBy.value === "first") return ["firstName"];
-      // else if (filterBy.value === "last") return ["lastName"];
-      // else return ["firstName", "lastName"];
-    });
-
-    const exactMatch = ref(false);
-    const isCaseSensitive = ref(false);
+    const exactMatch = ref(true);
     const matchAllWhenSearchEmpty = ref(true);
 
-    const options = computed<UseFuseOptions<DataItem>>(() => ({
+    const options = computed(() => ({
       fuseOptions: {
-        keys: keys.value,
+        keys: props.searchKeys,
         threshold: exactMatch.value ? 0 : undefined,
       },
-      // resultLimit: resultLimit.value,
       matchAllWhenSearchEmpty: matchAllWhenSearchEmpty.value,
     }));
-
+    // *****************************
     const { results } = useFuse(input, props.data, options);
-    return { results, input };
+    const { renderClass, attrsToBind } = useRenderClass("VSearchSelect");
+    return { results, input, renderClass, attrsToBind };
   },
 };
 </script>
