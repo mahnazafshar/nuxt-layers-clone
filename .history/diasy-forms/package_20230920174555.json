@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.2.0",
-    "@vueuse/integrations": "^10.4.1",
     "fuse.js": "^6.6.2",
     "vee-validate": "^4.10.6"
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="p-5 flex flex-col">
-  <!-- <test-demo></test-demo> -->
+  <test-demo></test-demo>
     <test-v-search-select></test-v-search-select>
     <!-- text input:
     <v-form @submit="onSubmit" :validation-schema="schema">

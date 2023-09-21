@@ -1,8 +1,6 @@
 <template>
   <div class="p-5 flex flex-col">
-  <!-- <test-demo></test-demo> -->
-    <test-v-search-select></test-v-search-select>
-    <!-- text input:
+    text input:
     <v-form @submit="onSubmit" :validation-schema="schema">
       verification code input :{{ code }}
 
@@ -26,7 +24,7 @@
     <hr />
     <div class="p-3 flex flex-col gap-4">
       <TestDAccordion></TestDAccordion>
-    </div> -->
+    </div>
   </div>
 </template>
 
