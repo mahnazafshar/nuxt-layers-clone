@@ -105,25 +105,25 @@
           {{ item }}
         </option>
       </select>
-      <label
-        data-name="messageLabel"
+    </div>
+    <label
+      data-name="messageLabel"
+      :class="
+        renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
+      "
+    >
+      <span
+        data-name="messageSpan"
         :class="
-          renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
+          renderClass(
+            'label-text-alt text-error text-2xs leading-3',
+            'messageSpan'
+          )
         "
       >
-        <span
-          data-name="messageSpan"
-          :class="
-            renderClass(
-              'label-text-alt text-error text-2xs leading-3',
-              'messageSpan'
-            )
-          "
-        >
-          {{ errorMessage }}</span
-        >
-      </label>
-    </div>
+        {{ errorMessage }}</span
+      >
+    </label>
   </div>
 </template>
 
