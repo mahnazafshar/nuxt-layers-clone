@@ -25,15 +25,15 @@
       "
     >
       <select
-        data-name="select"
-        :class="renderClass(`select select-bordered  max-w-xs `, 'select')"
+        data-name="select-day"
+        :class="renderClass(`select select-bordered  max-w-xs `, 'select-day')"
         type="select"
         data-crawl="day"
         @change="onchange($event, 'day')"
       >
         <option
-          data-name="placeholder"
-          :class="renderClass('', 'placeholder')"
+          data-name="placeholder-day"
+          :class="renderClass('', 'placeholder-day')"
           disabled
           selected
         >
@@ -45,22 +45,24 @@
           :value="item"
           :disabled="item.disabled"
           :selected="item == day"
-          data-name="option"
-          :class="renderClass('', 'option')"
+          data-name="option-day"
+          :class="renderClass('', 'option-day')"
         >
           {{ item }}
         </option>
       </select>
       <select
-        data-name="select"
-        :class="renderClass(`select select-bordered  max-w-xs `, 'select')"
+        data-name="select-month"
+        :class="
+          renderClass(`select select-bordered  max-w-xs `, 'select-month')
+        "
         type="select"
         data-crawl="month"
         @change="onchange($event, 'month')"
       >
         <option
-          data-name="placeholder"
-          :class="renderClass('', 'placeholder')"
+          data-name="placeholder-month"
+          :class="renderClass('', 'placeholder-month')"
           disabled
           selected
         >
@@ -72,22 +74,22 @@
           :value="item.id"
           :disabled="item.disabled"
           :selected="item.id == +month"
-          data-name="option"
-          :class="renderClass('', 'option')"
+          data-name="option-month"
+          :class="renderClass('', 'option-month')"
         >
           {{ item.name }}
         </option>
       </select>
       <select
-        data-name="select"
-        :class="renderClass(`select select-bordered  max-w-xs `, 'select')"
+        data-name="select-year"
+        :class="renderClass(`select select-bordered  max-w-xs `, 'select-year')"
         type="select"
         data-crawl="year"
         @change="onchange($event, 'year')"
       >
         <option
-          data-name="placeholder"
-          :class="renderClass('', 'placeholder')"
+          data-name="placeholder-year"
+          :class="renderClass('', 'placeholder-year')"
           disabled
           selected
         >
@@ -99,8 +101,8 @@
           :value="item"
           :disabled="item.disabled"
           :selected="item == year"
-          data-name="option"
-          :class="renderClass('', 'option')"
+          data-name="option-year"
+          :class="renderClass('', 'option-year')"
         >
           {{ item }}
         </option>

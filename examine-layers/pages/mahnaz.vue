@@ -4,8 +4,6 @@
       <v-birth-day
         label="تاریخ تولد"
         name="birthday"
-        data-label-add="text-primary"
-        data-select-day-add="w-full"
       >
       </v-birth-day>
 
