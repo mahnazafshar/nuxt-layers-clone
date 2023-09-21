@@ -6,8 +6,6 @@
         label="تاریخ تولد"
         v-model="birthday"
         name="birthday"
-        data-label-add="text-primary"
-        data-select-day-add="w-full"
       >
       </v-birth-day>
       <d-button class="btn btn-primary" type="submit">submit </d-button>
