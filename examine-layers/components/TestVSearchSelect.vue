@@ -1,9 +1,10 @@
 <template>
-  <v-search-select :data="data" :search-keys="['lastName']">
+  <!-- <v-search-select :data="data" :search-keys="['lastName']">
     <template #item="{item,index}">
       <span>{{ item.name }}-{{ item.lastName }}</span>
     </template>
-  </v-search-select>
+  </v-search-select> -->
+  <d-modal-searchable-list :data="data"></d-modal-searchable-list>
 </template>
 <script lang="ts" setup>
 interface DataItem {
