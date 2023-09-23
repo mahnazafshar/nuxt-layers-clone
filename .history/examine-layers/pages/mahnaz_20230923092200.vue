@@ -1,11 +1,19 @@
 <template>
   <div class="p-5 flex flex-col">
+<<<<<<< HEAD
     <v-form @submit="onSubmit" :validation-schema="schema" class="flex flex-col gap-y-3">
       <v-birth-day
         label="تاریخ تولد"
         name="birthday"
       >
       </v-birth-day>
+=======
+  <!-- <test-demo></test-demo> -->
+    <test-v-search-select></test-v-search-select>
+    <!-- text input:
+    <v-form @submit="onSubmit" :validation-schema="schema">
+      verification code input :{{ code }}
+>>>>>>> v-search-select
 
       <v-verification-code-input
         :length="4"
@@ -16,7 +24,6 @@
 
       <d-button class="btn btn-primary" type="submit">submit </d-button>
     </v-form>
-    <test-v-search-select></test-v-search-select>
     <test-pagination></test-pagination>
     test Daisy-Forms
     <hr />
@@ -28,7 +35,7 @@
     <hr />
     <div class="p-3 flex flex-col gap-4">
       <TestDAccordion></TestDAccordion>
-    </div> 
+    </div> -->
   </div>
 </template>
 

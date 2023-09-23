@@ -16,7 +16,6 @@
 
       <d-button class="btn btn-primary" type="submit">submit </d-button>
     </v-form>
-    <test-v-search-select></test-v-search-select>
     <test-pagination></test-pagination>
     test Daisy-Forms
     <hr />
