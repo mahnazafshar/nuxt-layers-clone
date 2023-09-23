@@ -13,11 +13,16 @@
     <div data-name="wrapper" :class="renderClass('flex flex-col', 'wrapper')">
       <template v-if="results.length > 0">
         <div v-for="(result, index) in results" :key="`result-${index}`">
-          <slot name="item" :item="result.item" :index="result.refIndex">
-            <span>
-              {{ result.item.name }}
-            </span>
-          </slot>
+          <div
+            @click="selectItem(result.item)"
+            :class="selectable ? 'cursor-pointer' : 'cursor-not-allowed'"
+          >
+            <slot name="item" :item="result.item" :index="result.refIndex">
+              <span>
+                {{ result.item.name }}
+              </span>
+            </slot>
+          </div>
         </div>
       </template>
       <template v-else>
@@ -37,6 +42,9 @@ export default {
       type: String,
       default: "",
     },
+    modelValue: {
+      type: [String, Number, Object],
+    },
     data: {
       type: Array,
       required: true,
@@ -45,8 +53,12 @@ export default {
       type: Array as PropType<string[]>,
       default: () => ["name"],
     },
+    selectable: {
+      type: Boolean,
+      default: true,
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const input = ref<string>("");
     const exactMatch = ref(true);
     const matchAllWhenSearchEmpty = ref(true);
@@ -59,9 +71,18 @@ export default {
       matchAllWhenSearchEmpty: matchAllWhenSearchEmpty.value,
     }));
     // *****************************
+    const selected = ref();
+    function selectItem(item: any) {
+      if (props.selectable) {
+        emit("update:modelValue", item);
+      }
+      // selected.value = item;
+      console.log("selectItem", item);
+    }
+    // *****************************
     const { results } = useFuse(input, props.data, options);
     const { renderClass, attrsToBind } = useRenderClass("VSearchSelect");
-    return { results, input, renderClass, attrsToBind };
+    return { results, input, renderClass, attrsToBind, selectItem };
   },
 };
 </script>

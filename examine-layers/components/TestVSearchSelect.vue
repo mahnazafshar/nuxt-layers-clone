@@ -1,11 +1,11 @@
 <template>
-  <v-search-select :data="data" :search-keys="['lastName']">
-    <template #item="{item,index}">
-      <span>{{ item.name }}-{{ item.lastName }}</span>
-    </template>
-  </v-search-select>
   <div>
-
+    selected item is :{{ selected }}
+    <v-search-select :data="data" :search-keys="['lastName']" v-model="selected">
+      <template #item="{ item, index }">
+        <span>{{ item.name }}-{{ item.lastName }}</span>
+      </template>
+    </v-search-select>
   </div>
 </template>
 <script lang="ts" setup>
@@ -13,7 +13,7 @@ interface DataItem {
   name: string;
   lastName: string;
 }
-
+const selected = ref();
 const data = ref<DataItem[]>([
   {
     name: "Roslyn",
