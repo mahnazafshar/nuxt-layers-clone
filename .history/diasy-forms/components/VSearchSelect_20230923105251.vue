@@ -76,6 +76,8 @@ export default {
       if (props.selectable) {
         emit("update:modelValue", item);
       }
+      // selected.value = item;
+      console.log("selectItem", item);
     }
     // *****************************
     const { results } = useFuse(input, props.data, options);
