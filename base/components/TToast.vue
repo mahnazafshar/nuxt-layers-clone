@@ -2,7 +2,12 @@
   <div
     ref="target"
     data-name="message"
-    :class="renderClass(`bg-${toastRef.type} text-white invisible fixed bottom-0 right-1/2 transform translate-x-1/2 p-3 rounded-md`, 'message')"
+    :class="
+      renderClass(
+        `bg-${toastRef.type} text-white invisible fixed bottom-0 right-1/2 transform translate-x-1/2 p-3 rounded-md`,
+        'message'
+      )
+    "
     v-bind="attrsToBind"
   >
     {{ toastRef.message }}
@@ -10,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
+//bg-primary bg-warning bg-error
 import gsap from "gsap";
 defineOptions({
   inheritAttrs: false,
-})
+});
 const { renderClass, attrsToBind } = useRenderClass("TToast");
 const { toastRef } = useToast();
 const target = ref<HTMLElement | null>(null);
