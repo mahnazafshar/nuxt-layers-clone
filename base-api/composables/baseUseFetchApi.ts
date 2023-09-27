@@ -14,6 +14,7 @@ interface AuthStore{
  isRefreshing:boolean;
  isRefreshSuccess:boolean;
  doRefreshToken:()=>void;
+ addTokenToConfig:(config:Record<string,any>)=>Record<string,any>;
 }
 export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationErrors,baseURL="",authRoute="/auth"}:BaseConfig) => {
     const router = useRouter();
@@ -31,7 +32,7 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
                     throw Error(e);
                 }
                 customConfig.onError?.(e)
-                if (customConfig.ignoreErrors) {
+                if (customConfig.ignoreErrors&&  e.response.status !== 401) {
                     return;
                 }
 
@@ -61,7 +62,9 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
                     return;
                 }
                 else {
-                    if ((config.method || '').toLowerCase() == 'get' || !config.method) {
+                  if(e.response && e.response.status && customConfig.messageByStatus?.[e.response.status]!=undefined){
+                    showToast(customConfig.messageByStatus?.[e.response.status])
+                  }else if ((config.method || '').toLowerCase() == 'get' || !config.method) {
                         showError({
                             statusMessage: e?.response?.statusText || 'خطای دریافت اطلاعات از سرور',
                             statusCode: e?.response?.status || 500,
@@ -80,7 +83,8 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
 
 
     async function handleRefreshToken(e: FetchError, url: string, config: FetchOptions, customConfig: FetchCustomConfig) {
-        if (!authStore.isLoggedIn) {
+
+      if (!authStore.isLoggedIn) {
             console.error("send request that needs token while user is not logged in : ", url)
             return new Promise((_, reject) => {
                 reject(e);
@@ -92,12 +96,13 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
 
         return new Promise((resolve, reject) => {
             if (authStore.isRefreshSuccess) {
-                resolve(myCustomFetch(url, config, customConfig))
+
+                resolve(myCustomFetch(url, authStore.addTokenToConfig(config), customConfig))
             } else {
                 watch(() => authStore.isRefreshing, (isRefreshing) => {
                     if (isRefreshing == false) {
                         if (authStore.isRefreshSuccess) {
-                            resolve(myCustomFetch(url, config, customConfig))
+                            resolve(myCustomFetch(url, authStore.addTokenToConfig(config), customConfig))
                         } else {
                             reject(e)
                         }

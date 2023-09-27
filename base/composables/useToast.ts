@@ -1,4 +1,5 @@
 import { useDebounceFn } from '@vueuse/core'
+import { ToastEnum } from '../../global-composables/utils/TToast.enum';
 interface Toast {
     message: string;
     type: ToastEnum;

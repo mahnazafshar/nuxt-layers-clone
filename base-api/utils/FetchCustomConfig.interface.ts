@@ -10,5 +10,6 @@ export interface FetchCustomConfig {
     goToLogin?: boolean;
     beforeResponse?: Function;
     debug?: boolean;
-    toastValidationFields?: string[]
+    toastValidationFields?: string[];
+    messageByStatus?:Record<number,string>
 }
