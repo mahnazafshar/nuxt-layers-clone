@@ -1,5 +1,5 @@
 import config from './config.mjs';
-
+import  JsonToTS from "json-to-ts";
 const parseField = (field) => {
     const dataArray = field.split(" ");
     return {
@@ -15,7 +15,46 @@ export default function(/** @type {import('plop').NodePlopAPI} */ plop){
          return parseField(item);
         });
       });
+      plop.setHelper("interfaceFromJson", function (jsonString, rootInterfaceName) {
+        // try {
+        
+          return JsonToTS(
+           JSON.parse(jsonString)
+          )
+            .join("\n")
+            .replace("RootObject", rootInterfaceName);
+        // } catch {
+        //   throw new Error(
+        //     "make sure you have the json file in this path: plop-templates/json/" +
+        //       jsonFileName +
+        //       ".json"
+        //   );
+        // }
+      });
     
+      plop.setGenerator("interface", {
+        description: "create an interface for my app",
+        prompts: [
+          {
+            type: "input",
+            name: "name",
+            message: "name of your module you want generate interface for it?",
+          },
+          {
+            type: "input",
+            name: "json",
+            message: "json?",
+          },
+        ],
+        actions: [
+          {
+            type: "add",
+            path: 
+              config.logicPath+"/composables/{{camelCase name}}/{{pascalCase name}}.interface.ts",
+              templateFile: "plop-templates/interface.hbs",
+          },
+        ],
+      });
 
     plop.setGenerator("validator",{
         description: "generate validator",

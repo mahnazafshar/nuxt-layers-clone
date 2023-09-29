@@ -3,5 +3,8 @@
     "version": "0.0.1",
     "devDependencies": {
         "plop": "^3.1.2"
+    },
+    "dependencies": {
+        "json-to-ts": "^1.7.0"
     }
 }
