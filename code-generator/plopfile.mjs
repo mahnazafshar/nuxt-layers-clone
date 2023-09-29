@@ -9,6 +9,7 @@ const parseField = (field) => {
   };
 
 export default function(/** @type {import('plop').NodePlopAPI} */ plop){
+  plop.setHelper('upperCase', (txt) => txt.toUpperCase());
     plop.setHelper("parseFields", (fields) => {
         const dataArray = fields.split(",");
         return dataArray.map((item) => {
@@ -74,4 +75,18 @@ export default function(/** @type {import('plop').NodePlopAPI} */ plop){
             },
           ],
     })
+
+    plop.setGenerator("service",{
+      description: "generate validator",
+      prompts:[
+          {type:'input',name: 'name' ,"message":"name of your module you want generate service for it?"},
+      ],
+      actions: [
+          {
+            type: "add",
+            path: config.logicPath+"/composables/{{camelCase name}}/{{pascalCase name}}.service.ts",
+            templateFile: "plop-templates/service.hbs",
+          },
+        ],
+  })
 }

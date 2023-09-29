@@ -1,0 +1,45 @@
+import { {{upperCase name}}_URLS } from "../api/api.config";
+import { useFetchApi } from "../api/useFetchApi";
+
+export const use{{pascalCase name}}ListService = () => {
+  const fetchData = useFetchApi();
+  return () =>
+      fetchData({{upperCase name}}_URLS.index.url, {
+          method: "get",
+          params:{{upperCase name}}_URLS.index.defaultParams
+      },{setToken:true}).then((response: any) => {
+          return response
+      });
+}
+export const use{{pascalCase name}}CreateService = () => {
+  const fetchData = useFetchApi();
+  return (body,{setErrors}) =>
+      fetchData({{upperCase name}}_URLS.create.url, {
+          method: "post",
+          body
+      },{setToken:true,setErrors}).then((response: any) => {
+          return response
+      });
+}
+export const use{{pascalCase name}}UpdateService = (id:Ref<number>) => {
+  const fetchData = useFetchApi();
+  return (body,{setErrors}) =>
+      fetchData({{upperCase name}}_URLS.update.url, {
+          method: "post",
+          body,
+          params:{id:unref(id)}
+      },{setToken:true,setErrors}).then((response: any) => {
+          return response
+      });
+}
+
+export const use{{pascalCase name}}ViewService = (id:Ref<number>) => {
+  const fetchData = useFetchApi();
+  return () =>
+      fetchData({{upperCase name}}_URLS.view.url, {
+          method: "get",
+          params:{id:unref(id)}
+      },{setToken:true}).then((response: any) => {
+          return response
+      });
+}
