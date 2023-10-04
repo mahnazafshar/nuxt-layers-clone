@@ -12,8 +12,8 @@
     >
       <template v-if="eager || modelValue">
         <div
-          data-name="header-wrapper"
-          :class="renderClass('', 'header-wrapper')"
+          data-name="headerWrapper"
+          :class="renderClass('', 'headerWrapper')"
         >
           <button
             v-if="closeButton"
