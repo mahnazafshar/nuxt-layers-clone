@@ -11,7 +11,6 @@
       :class="renderClass('', 'input')"
     ></v-text-input>
     <div data-name="wrapper" :class="renderClass('flex flex-col', 'wrapper')">
-      <span>in main:{{ selected }}----------</span>
       <template v-if="results.length > 0">
         <div v-for="(result, index) in results" :key="`result-${index}`">
           <div
