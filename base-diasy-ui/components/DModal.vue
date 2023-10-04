@@ -11,20 +11,31 @@
       :class="renderClass('modal-box', 'form')"
     >
       <template v-if="eager || modelValue">
-        <button
-          v-if="closeButton"
-          data-name="closeButton"
-          :class="renderClass('btn btn-sm btn-circle btn-ghost absolute right-2 top-2', 'closeButton')"
+        <div
+          data-name="header-wrapper"
+          :class="renderClass('', 'header-wrapper')"
         >
-          ✕
-        </button>
-        <h3
-          v-if="title"
-          data-name="title"
-          :class="renderClass('font-bold text-lg', 'title')"
-        >
-          {{ title }}
-        </h3>
+          <button
+            v-if="closeButton"
+            data-name="closeButton"
+            :class="
+              renderClass(
+                'btn btn-sm btn-circle btn-ghost absolute right-2 top-2',
+                'closeButton'
+              )
+            "
+          >
+            ✕
+          </button>
+          <h3
+            v-if="title"
+            data-name="title"
+            :class="renderClass('font-bold text-lg', 'title')"
+          >
+            {{ title }}
+          </h3>
+        </div>
+
         <slot />
       </template>
     </form>
@@ -66,7 +77,8 @@ export default defineComponent({
     },
     responsiveClass: {
       type: [String, Array],
-      default: ()=> inject('d-modal-responsive-class', 'modal-bottom sm:modal-middle'),
+      default: () =>
+        inject("d-modal-responsive-class", "modal-bottom sm:modal-middle"),
     },
     backdropClose: {
       type: Boolean,
