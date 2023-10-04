@@ -1,7 +1,7 @@
 import { computed, inject, getCurrentInstance } from "vue";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface TSettings {
-  direction: Direction;
+  direction?: Direction;
 
   /** Base DaisyUI components */
   DAccordion?: {
