@@ -11,13 +11,19 @@
       :class="renderClass('', 'input')"
     ></v-text-input>
     <div data-name="wrapper" :class="renderClass('flex flex-col', 'wrapper')">
+      <span>in main:{{ selected }}----------</span>
       <template v-if="results.length > 0">
         <div v-for="(result, index) in results" :key="`result-${index}`">
           <div
             @click="selectItem(result.item)"
             :class="selectable ? 'cursor-pointer' : 'cursor-not-allowed'"
           >
-            <slot name="item" :item="result.item" :index="result.refIndex">
+            <slot
+              name="item"
+              :item="result.item"
+              :index="result.refIndex"
+              :selected="selected"
+            >
               <span>
                 {{ result.item.name }}
               </span>
@@ -74,13 +80,14 @@ export default {
     const selected = ref();
     function selectItem(item: any) {
       if (props.selectable) {
+        selected.value = item;
         emit("update:modelValue", item);
       }
     }
     // *****************************
     const { results } = useFuse(input, props.data, options);
     const { renderClass, attrsToBind } = useRenderClass("VSearchSelect");
-    return { results, input, renderClass, attrsToBind, selectItem };
+    return { results, input, renderClass, attrsToBind, selectItem, selected };
   },
 };
 </script>

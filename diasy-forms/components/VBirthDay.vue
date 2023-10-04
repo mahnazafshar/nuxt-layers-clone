@@ -214,6 +214,7 @@ export default {
       });
     }
     // ****************************************
+
     const {
       value: inputValue,
       errorMessage,
@@ -238,7 +239,6 @@ export default {
     const day = ref("");
     const month = ref("");
     const year = ref("");
-
     onMounted(() => {
       const tempDays = [];
       const tempYears = [];
@@ -252,10 +252,14 @@ export default {
 
       days.value = tempDays;
       years.value = tempYears;
-
+      if (unref(inputValue)) {
+        const initialDate = unref(inputValue).split(props.separator);
+        year.value = convertTwoDigit(initialDate[0]);
+        month.value = convertTwoDigit(initialDate[1]);
+        day.value = convertTwoDigit(initialDate[2]);
+      }
       if (props.modelValue) {
         const initValue = props.modelValue.split(props.separator);
-        console.log("has modelValue", initValue[0]);
         year.value = initValue[0];
         month.value = initValue[1];
         day.value = initValue[2];
