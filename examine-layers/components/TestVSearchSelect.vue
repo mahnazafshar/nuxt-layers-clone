@@ -2,8 +2,9 @@
   <div>
     selected item is :{{ selected }}
     <v-search-select :data="data" :search-keys="['lastName']" v-model="selected">
-      <template #item="{ item, index }">
-        <span>{{ item.name }}-{{ item.lastName }}</span>
+      <template #item="{ item, index, selected}">
+        <span>{{ item.name }}-{{ item.lastName }}-</span>
+        <span>selected item is :{{ selected}}</span>
       </template>
     </v-search-select>
   </div>

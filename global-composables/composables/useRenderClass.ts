@@ -40,6 +40,7 @@ export interface TSettings {
     title?: TSettingItem;
     backdropForm?: TSettingItem;
     backdropCloseButton?: TSettingItem;
+    headerWrapper
   };
   DRating?: {
     container?: TSettingItem;
