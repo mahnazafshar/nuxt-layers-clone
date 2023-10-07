@@ -82,6 +82,7 @@
           {{ tab.props.title }}
         </button>
         <div ref="endItem" class="w-1 h-1 px-1"></div>
+        <slot name="append"></slot>
       </nav>
       <div v-if="showArrows" @click="onScrollLeft">
         <template v-if="hasLeftArrowSlot">

@@ -30,7 +30,7 @@
                 `${getCellVariant(
                   i,
                   headerItem.key
-                )} border-grey-light border p-3`,
+                )} border-grey-100 border p-3`,
                 'cardCell',
                 {
                   'first:rounded-t-inherit last:rounded-b-inherit': rounded,
