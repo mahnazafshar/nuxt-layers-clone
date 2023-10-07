@@ -27,16 +27,9 @@
         :disabled="disabled"
         :checked="checked"
         @change="handleChange"
-      >
-      <slot
-        name="label"
-        :checked="checked"
-        :disabled="disabled"
-      >
-        <span
-          data-name="label"
-          :class="renderClass('label-text', 'label')"
-        >{{
+      />
+      <slot name="label" :checked="checked" :disabled="disabled">
+        <span data-name="label" :class="renderClass('label-text', 'label')">{{
           label
         }}</span>
       </slot>
@@ -49,10 +42,7 @@
         renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
       "
     >
-      <slot
-        name="inputMessage"
-        :value="errorMessage"
-      >
+      <slot name="inputMessage" :value="errorMessage">
         <span
           data-name="messageSpan"
           :class="
@@ -95,7 +85,7 @@ export default {
       default: "",
     },
     value: {
-      type: [String, Boolean, Number],
+      type: [String, Boolean, Number, Object],
       default: true,
     },
     useModelValue: {
@@ -110,7 +100,6 @@ export default {
       type: String,
       default: VRadioSize.md,
     },
-
   },
   setup(props: any, { emit }) {
     const { renderClass, attrsToBind } = useRenderClass("VRadio");
