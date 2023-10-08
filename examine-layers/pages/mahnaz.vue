@@ -1,11 +1,10 @@
 <template>
   <div class="p-5 flex flex-col">
-    <v-form @submit="onSubmit" :validation-schema="schema" class="flex flex-col gap-y-3">
-      <v-birth-day
-        label="تاریخ تولد"
-        name="birthday"
-      >
-      </v-birth-day>
+  
+    <t-progress-bar :value="69" ></t-progress-bar>
+
+    <!-- <v-form @submit="onSubmit" :validation-schema="schema" class="flex flex-col gap-y-3">
+      <v-birth-day label="تاریخ تولد" name="birthday"> </v-birth-day>
 
       <v-verification-code-input
         :length="4"
@@ -28,7 +27,7 @@
     <hr />
     <div class="p-3 flex flex-col gap-4">
       <TestDAccordion></TestDAccordion>
-    </div> 
+    </div> -->
   </div>
 </template>
 
