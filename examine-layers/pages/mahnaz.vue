@@ -1,7 +1,11 @@
 <template>
   <div class="p-5 flex flex-col">
-  
-    <t-progress-bar :value="69" ></t-progress-bar>
+    <!-- <t-progress-bar :value="69" ></t-progress-bar> -->
+    <div>
+      <t-circle-progress-bar v-model="percent" :stroke="15" :diameter="59" :size="134">
+      <div>data</div>
+      </t-circle-progress-bar>
+    </div>
 
     <!-- <v-form @submit="onSubmit" :validation-schema="schema" class="flex flex-col gap-y-3">
       <v-birth-day label="تاریخ تولد" name="birthday"> </v-birth-day>
@@ -43,4 +47,6 @@ const schema = yup.object({
 function onSubmit(values: any) {
   console.log("click submit", values);
 }
+
+const percent = ref(35);
 </script>
