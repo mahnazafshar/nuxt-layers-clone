@@ -100,6 +100,10 @@ export default {
       type: String,
       default: VRadioSize.md,
     },
+    emitToUpdateModelValue: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props: any, { emit }) {
     const { renderClass, attrsToBind } = useRenderClass("VRadio");
@@ -119,9 +123,12 @@ export default {
       ...(props.useModelValue ? { initialValue: props.modelValue } : {}),
     });
 
-    watchEffect(() => {
-      emit("update:modelValue", unref(inputValue));
+    watch(inputValue, (value, oldValue) => {
+      if (value != oldValue && props.emitToUpdateModelValue) {
+        emit("update:modelValue", unref(inputValue));
+      }
     });
+
     watch(
       () => props.modelValue,
       (value) => {
