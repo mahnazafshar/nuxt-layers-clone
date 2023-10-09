@@ -1,31 +1,29 @@
 <template>
   <div
-    class="flex items-center justify-center relative"
-    :class="`w-[${getWidth}rem] h-[${getHeight}rem]`"
+    class="flex items-center justify-center relative wrapper overflow-hidden"
   >
-    <svg
-      class="transform -rotate-90"
-      :class="`w-[${getWidth}rem] h-[${getHeight}rem]`"
-    >
+    <!-- :class="`w-[${getWidth}rem] h-[${getHeight}rem]`" -->
+    <svg class="transform -rotate-90">
+      <!-- :class="`w-[${getWidth}rem] h-[${getHeight}rem]`" -->
       <circle
-        :cx="coordinate"
-        :cy="coordinate"
-        :r="diameter"
+        :cx="cx"
+        :cy="cy"
+        :r="r"
         stroke="currentColor"
         :stroke-width="stroke"
         fill="transparent"
-        class="text-gray-700"
+        :class="fillColor"
       />
       <circle
-        :cx="coordinate"
-        :cy="coordinate"
-        :r="diameter"
+        :cx="cx"
+        :cy="cy"
+        :r="r"
         stroke="currentColor"
         :stroke-width="stroke"
         fill="transparent"
         :stroke-dasharray="circumference"
         :stroke-dashoffset="circumference - (modelValue / 100) * circumference"
-        class="text-blue-500"
+        :class="percentColor"
       />
     </svg>
     <!-- <div class="absolute text-5xl"
@@ -43,6 +41,11 @@ interface Props {
   modelValue: number;
   stroke?: number;
   size: number;
+  cx: string;
+  cy: string;
+  r: number;
+  percentColor: string;
+  fillColor: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -54,7 +57,22 @@ const circumference = computed(() => {
   return ((2 * 22) / 7) * unref(diameter);
 });
 
-const coordinate = computed(() => props.size / 2);
-const getWidth = computed(() => props.size / 16);
-const getHeight = computed(() => props.size / 16);
+// const coordinate = computed(() => props.size / 2);
+// const coordinate = computed(() => props.size / 2);
+// const coordinate = computed(() => {
+//   return (props.size - 10) / 2;
+// });
+// const getWidth = computed(() => props.size / 16);
+// const getHeight = computed(() => props.size / 16);
+
+// const getStyle=computed(()=>{
+//   return ['']
+// })
 </script>
+
+<style scoped>
+.wrapper {
+  width: inherit;
+  height: inherit;
+}
+</style>
