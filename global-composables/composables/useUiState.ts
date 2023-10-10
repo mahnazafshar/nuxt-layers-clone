@@ -7,6 +7,7 @@ export const useUiState = (sharedKey = '') => {
         return ref<K>(defaultValue)
     }
     const model = defineRef<boolean>(false)
+    const resetKey = defineRef<number>(0,'-component-key-')
     const open = () => {
         model.value = true
     }
@@ -23,5 +24,13 @@ export const useUiState = (sharedKey = '') => {
     const setState = (state: boolean) => {
         model.value = state
     }
-    return { model, open, close, toggle, setState }
+    const openWithReset=()=>{
+      resetKey.value++;
+      open();
+    }
+    const closeWithReset=()=>{
+      resetKey.value++
+      close();
+    }
+    return { model, open, close, toggle,openWithReset,closeWithReset, setState,resetKey }
 }

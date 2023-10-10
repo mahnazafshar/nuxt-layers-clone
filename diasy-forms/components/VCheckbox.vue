@@ -11,7 +11,12 @@
   >
     <label
       data-name="labelContainer"
-      :class="renderClass('t-row pb-1.5 px-1 cursor-pointer', 'labelContainer')"
+      :class="
+        renderClass(
+          'flex flex-row pb-1.5 px-1 cursor-pointer',
+          'labelContainer'
+        )
+      "
     >
       <input
         data-name="input"

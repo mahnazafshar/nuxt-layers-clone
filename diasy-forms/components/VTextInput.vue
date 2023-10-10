@@ -52,24 +52,26 @@
       />
     </template>
 
-    <label
-      data-name="messageLabel"
-      :class="
-        renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
-      "
-    >
-      <span
-        data-name="messageSpan"
+    <slot name="messageLabel">
+      <label
+        data-name="messageLabel"
         :class="
-          renderClass(
-            'label-text-alt text-error text-2xs leading-3',
-            'messageSpan'
-          )
+          renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
         "
       >
-        {{ errorMessage || successMessage }}</span
-      >
-    </label>
+        <span
+          data-name="messageSpan"
+          :class="
+            renderClass(
+              'label-text-alt text-error text-2xs leading-3',
+              'messageSpan'
+            )
+          "
+        >
+          {{ errorMessage || successMessage }}</span
+        >
+      </label>
+    </slot>
   </div>
 </template>
 

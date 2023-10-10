@@ -11,7 +11,12 @@
   >
     <label
       data-name="labelContainer"
-      :class="renderClass('t-row pb-1.5 px-1 cursor-pointer', 'labelContainer')"
+      :class="
+        renderClass(
+          'flex flex-row pb-1.5 px-1 cursor-pointer',
+          'labelContainer'
+        )
+      "
     >
       <input
         data-name="input"
@@ -36,26 +41,28 @@
       <slot name="leftLabel" />
     </label>
 
-    <label
-      data-name="messageLabel"
-      :class="
-        renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
-      "
-    >
-      <slot name="inputMessage" :value="errorMessage">
-        <span
-          data-name="messageSpan"
-          :class="
-            renderClass(
-              'label-text-alt text-error text-2xs leading-3',
-              'messageSpan'
-            )
-          "
-        >
-          {{ errorMessage || successMessage }}
-        </span>
-      </slot>
-    </label>
+    <slot name="messageLabel">
+      <label
+        data-name="messageLabel"
+        :class="
+          renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
+        "
+      >
+        <slot name="inputMessage" :value="errorMessage">
+          <span
+            data-name="messageSpan"
+            :class="
+              renderClass(
+                'label-text-alt text-error text-2xs leading-3',
+                'messageSpan'
+              )
+            "
+          >
+            {{ errorMessage || successMessage }}
+          </span>
+        </slot>
+      </label>
+    </slot>
   </div>
 </template>
 
