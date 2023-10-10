@@ -8,7 +8,7 @@
     <form
       method="dialog"
       data-name="form"
-      :class="renderClass('modal-box', 'form')"
+      :class="renderClass('modal-box sm:!max-w-fit', 'form')"
     >
       <template v-if="eager || modelValue">
         <div
