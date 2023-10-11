@@ -206,62 +206,58 @@ export enum Direction {
 export const useRenderClass = (componentName: string) => {
   const TSettings = inject<TSettings>("TSettings");
   const instance = getCurrentInstance();
-  const renderClass = computed(
-    () =>
-      (className: string, elementName: string, objectBinding = {}) => {
-        const getSettings = computed((): TSettingItem | null => {
-          let combinedSettings: TSettingItem | undefined =
-            TSettings?.[componentName]?.[elementName];
-          const dataDelete = instance?.attrs?.[`data-${elementName}-delete`];
-          const dataAdd = instance?.attrs?.[`data-${elementName}-add`];
-          if (dataDelete && typeof dataDelete === "string") {
-            if (!combinedSettings) {
-              combinedSettings = {};
-            }
-            if (!combinedSettings.delete) {
-              combinedSettings.delete = [];
-            }
-            combinedSettings.delete = [
-              ...combinedSettings.delete,
-              ...dataDelete.split(" "),
-            ];
-          }
-          if (dataAdd) {
-            if (!combinedSettings) {
-              combinedSettings = {};
-            }
-            if (!combinedSettings.add) {
-              combinedSettings.add = "";
-            }
-            combinedSettings.add += " " + dataAdd;
-          }
-          return combinedSettings || null;
-        });
-        let result = className;
-        for (const k in objectBinding) {
-          if (objectBinding[k]) {
-            result += " " + k + " ";
-          }
-        }
-        const settings = getSettings.value;
-        if (settings) {
-          if (settings.add) {
-            result += " " + settings.add;
-          }
-          if (settings.delete) {
-            settings.delete.forEach((item) => {
-              result = result.replace(item, "");
-            });
-          }
-          if (settings.replace) {
-            for (const key in settings.replace) {
-              result = result.replace(key, settings.replace[key]);
-            }
-          }
-        }
-        return result;
+  const getSettings = (elementName): TSettingItem | null => {
+    let combinedSettings: TSettingItem | undefined ={...TSettings?.[componentName]?.[elementName]};
+    const dataDelete = instance?.attrs?.[`data-${elementName}-delete`];
+    const dataAdd = instance?.attrs?.[`data-${elementName}-add`];
+    if (dataDelete && typeof dataDelete === "string") {
+      if (!combinedSettings) {
+        combinedSettings = {};
       }
-  );
+      if (!combinedSettings.delete) {
+        combinedSettings.delete = [];
+      }
+      combinedSettings.delete = [
+        ...combinedSettings.delete,
+        ...dataDelete.split(" "),
+      ];
+    }
+    if (dataAdd) {
+      if (!combinedSettings) {
+        combinedSettings = {};
+      }
+      if (!combinedSettings.add) {
+        combinedSettings.add = "";
+      }
+      combinedSettings.add += " " + dataAdd;
+    }
+    return combinedSettings || null;
+  };
+  const renderClass = (className: string, elementName: string, objectBinding = {}) => {
+    let result = className;
+    for (const k in objectBinding) {
+      if (objectBinding[k]) {
+        result += " " + k + " ";
+      }
+    }
+    const settings = getSettings(elementName);
+    if (settings) {
+      if (settings.add) {
+        result += " " + settings.add;
+      }
+      if (settings.delete) {
+        settings.delete.forEach((item) => {
+          result = result.replace(item, "");
+        });
+      }
+      if (settings.replace) {
+        for (const key in settings.replace) {
+          result = result.replace(key, settings.replace[key]);
+        }
+      }
+    }
+    return result;
+  }
 
   const attrsToBind = computed(() => {
     const attrs = { ...instance.attrs };
