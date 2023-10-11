@@ -418,6 +418,7 @@ export default defineComponent({
         //@ts-ignore
         bounds: { minX: 0, maxX },
         throwProps: true,
+        minimumMovement: 6,
       });
       setMiddleIfIsSlider();
 
