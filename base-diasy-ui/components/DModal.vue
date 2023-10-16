@@ -25,7 +25,7 @@
               )
             "
           >
-            ✕
+            <div v-html="closeIcon"></div>
           </button>
           <h3
             v-if="title"
@@ -66,6 +66,10 @@ export default defineComponent({
     modelValue: {
       type: [Boolean, Number],
       default: false,
+    },
+    closeIcon: {
+      type: String,
+      default: () => inject("d-modal-close-icon", "✕"),
     },
     title: {
       type: String,
