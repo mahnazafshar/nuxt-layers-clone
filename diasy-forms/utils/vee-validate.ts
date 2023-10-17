@@ -1,2 +1,3 @@
-import { FormActions } from "vee-validate";
-export { FormActions }
+import { FormActions,useForm,useField } from "vee-validate";
+export type { FormActions }
+export {useForm,useField}
