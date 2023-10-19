@@ -1,14 +1,13 @@
 export default defineAppConfig({
-  myLayer: {
-    name: 'Hello from Nuxt layer'
+  'base-api': {
+    defaultErrorMessage: 'internal server error'
   }
 })
 
 declare module '@nuxt/schema' {
   interface AppConfigInput {
-    myLayer?: {
-      /** Project name */
-      name?: string
+    'base-api'?: {
+      defaultErrorMessage?: string
     }
   }
 }

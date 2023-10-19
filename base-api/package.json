@@ -1,5 +1,5 @@
 {
-  "name": "base-api",
+  "name": "@avapardaz/base-api",
   "type": "module",
   "version": "0.0.1",
   "main": "./nuxt.config.ts",

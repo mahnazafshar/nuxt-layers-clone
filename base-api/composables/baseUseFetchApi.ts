@@ -17,7 +17,8 @@ interface AuthStore{
  addTokenToConfig:(config:Record<string,any>)=>Record<string,any>;
 }
 export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationErrors,baseURL="",authRoute="/auth"}:BaseConfig) => {
-    const router = useRouter();
+  const appConfig=useAppConfig();
+  const router = useRouter();
     const myCustomFetch = (url: string, config: FetchOptions = {}, customConfig: FetchCustomConfig = {}) => {
         config = { baseURL,retry: 0, ...config }
         customConfig = { goToLogin: true, toastError: true, ...customConfig }
@@ -66,11 +67,11 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
                     showToast(customConfig.messageByStatus?.[e.response.status])
                   }else if ((config.method || '').toLowerCase() == 'get' || !config.method) {
                         showError({
-                            statusMessage: e?.response?.statusText || 'خطای دریافت اطلاعات از سرور',
+                            statusMessage: e?.response?.statusText || appConfig['base-api'].defaultErrorMessage,
                             statusCode: e?.response?.status || 500,
                         })
                     } else if (customConfig.toastError) {
-                        showToast(e?.response?.statusText || 'خطای دریافت اطلاعات از سرور')
+                        showToast(e?.response?.statusText ||  appConfig['base-api'].defaultErrorMessage)
                     }
                 }
             })

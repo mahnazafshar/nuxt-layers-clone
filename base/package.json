@@ -1,5 +1,5 @@
 {
-  "name": "base",
+  "name": "@avapardaz/base",
   "type": "module",
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
@@ -26,7 +26,8 @@
     "unplugin-auto-import": "^0.16.6",
     "vitest": "^0.33.0"
   },
-  "dependencies": {
+  "peerDependencies": {
+    "@avapardaz/global-composables": "^0.0.1",
     "@vueuse/core": "^10.2.0",
     "gsap": "^3.12.1"
   }
