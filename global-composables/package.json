@@ -1,5 +1,5 @@
 {
-  "name": "my-nuxt-layer",
+  "name": "@avapardaz/global-composables",
   "type": "module",
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
