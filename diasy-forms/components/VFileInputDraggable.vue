@@ -1,12 +1,17 @@
 <template>
   <VField
-    v-slot="{handleBlur, handleChange, errorMessage}"
+    v-slot="{ handleBlur, handleChange, errorMessage }"
     :name="name"
     :class="wrapperClass"
   >
     <label
       data-name="label"
-      :class="renderClass(`block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 `,'label')"
+      :class="
+        renderClass(
+          `block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 `,
+          'label'
+        )
+      "
       v-bind="attrsToBind"
     >
       <input
@@ -16,12 +21,20 @@
         :accept="accept"
         :class="renderClass('hidden', 'input')"
         @blur="handleBlur"
-        @change="($event)=>{handleChange($event);handleInput($event)}"
-      >
+        @change="
+          ($event) => {
+            handleChange($event);
+            handleInput($event);
+          }
+        "
+        :multiple="multiple"
+      />
       <span
         v-if="!hasAnyFile"
         data-name="text"
-        :class="renderClass('absolute inset-0 pointer-events-none t-center', 'text')"
+        :class="
+          renderClass('absolute inset-0 pointer-events-none t-center', 'text')
+        "
       >
         <slot name="selectFile">
           <span class="text-center block">
@@ -29,18 +42,9 @@
           </span>
         </slot>
       </span>
-      <div
-        v-else
-        class="relative"
-      >
-        <slot
-          name="preview"
-          :src="getImageUrl"
-        >
-          <img
-            :src="getImageUrl"
-            alt=""
-          >
+      <div v-else class="relative">
+        <slot name="preview" :src="getImageUrl">
+          <img :src="getImageUrl" alt="" />
         </slot>
         <div
           v-if="fileName"
@@ -48,7 +52,17 @@
           @click.stop.prevent="onDelete"
         >
           <slot name="deleteFile">
-            <button class="btn btn-sm btn-circle btn-error text-white">✕</button>
+            <button
+              data-name="delete"
+              :class="
+                renderClass(
+                  'btn btn-sm btn-circle btn-error text-white',
+                  'delete'
+                )
+              "
+            >
+              ✕
+            </button>
           </slot>
         </div>
       </div>
@@ -68,59 +82,59 @@
           )
         "
       >
-        {{ errorMessage || successMessage }}</span>
+        {{ errorMessage || successMessage }}</span
+      >
     </label>
   </VField>
 </template>
 <script setup lang="ts">
-
-interface Props{
-  modelValue?: string,
-  name: string,
-  id?: string,
-  accept?: string,
-  multiple?: boolean,
-  wrapperClass?: string,
-  successMessage?: string,
-  title: string,
+interface Props {
+  modelValue?: string;
+  name: string;
+  id?: string;
+  accept?: string;
+  multiple?: boolean;
+  wrapperClass?: string;
+  successMessage?: string;
+  title: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   id: "drag",
   accept: "image/*",
   multiple: false,
-  wrapperClass: '',
+  wrapperClass: "",
   successMessage: () => inject("v-file-input-draggable-text-success-msg", ""),
-  title: 'فایل را اینجا رها کنید...',
+  title: "فایل را اینجا رها کنید...",
 });
 
-const imageUrl = ref<Blob | MediaSource>()
-const files = ref([])
-const fileName = ref('')
-const emit=defineEmits(['update:modelValue', 'input'])
-const hasAnyFile = computed(()=>unref(files).length>0)
+const imageUrl = ref<Blob | MediaSource>();
+const files = ref([]);
+const fileName = ref("");
+const emit = defineEmits(["update:modelValue", "input"]);
+const hasAnyFile = computed(() => unref(files).length > 0);
 
 const handleInput = ($e: any) => {
   emit(
     "update:modelValue",
     props.multiple ? $e.target.files : $e.target.files[0]
   );
-  files.value = Array.from($e.target.files)
-  fileName.value =  $e.target.files[0].name
+  files.value = Array.from($e.target.files);
+  fileName.value = $e.target.files[0].name;
 };
 
 watch(files, (newFiles) => {
-  emit('input', newFiles)
-  imageUrl.value = newFiles[0]
-})
+  emit("input", newFiles);
+  imageUrl.value = newFiles[0];
+});
 
 const getImageUrl = computed(() => {
-  return imageUrl.value ? window.URL.createObjectURL(imageUrl.value) : ''
-})
+  return imageUrl.value ? window.URL.createObjectURL(imageUrl.value) : "";
+});
 
 const onDelete = () => {
-  files.value = []
-  fileName.value = ''
-}
+  files.value = [];
+  fileName.value = "";
+};
 
-const { renderClass, attrsToBind } = useRenderClass('VFileInputDraggable');
+const { renderClass, attrsToBind } = useRenderClass("VFileInputDraggable");
 </script>
