@@ -43,7 +43,7 @@
         </slot>
       </span>
       <div v-else class="relative">
-        <slot name="preview" :src="getImageUrl">
+        <slot name="preview" :files="files" :src="getImageUrl">
           <img :src="getImageUrl" alt="" />
         </slot>
         <div
