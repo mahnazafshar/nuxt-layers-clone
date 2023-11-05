@@ -1,26 +1,35 @@
 <template>
   <div
     data-name="container"
-    :class="renderClass('form-control', 'container', { 'has-error': !!errorMessage, success: meta.valid })"
+    :class="
+      renderClass('form-control', 'container', {
+        'has-error': !!errorMessage,
+        success: meta.valid,
+      })
+    "
     v-bind="attrsToBind"
   >
     <label
       v-if="label !== ''"
       data-name="labelContainer"
-      :class="renderClass('t-row justify-between pb-1.5 px-1', 'labelContainer')"
+      :class="
+        renderClass('t-row justify-between pb-1.5 px-1', 'labelContainer')
+      "
       :for="name"
     >
-      <span
-        data-name="label"
-        :class="renderClass('label-text', 'label')"
-      >
+      <span data-name="label" :class="renderClass('label-text', 'label')">
         {{ label }}
       </span>
       <slot name="leftLabel" />
     </label>
     <select
       data-name="select"
-      :class="renderClass(`select select-bordered w-full max-w-xs ${getColorClass} ${getSizeClass}`, 'select')"
+      :class="
+        renderClass(
+          `select select-bordered w-full max-w-xs ${getColorClass} ${getSizeClass}`,
+          'select'
+        )
+      "
       :disabled="disabled"
       type="select"
       @change="handleChange"
@@ -39,7 +48,7 @@
         :key="index"
         :value="item.value"
         :disabled="item.disabled"
-        :selected="item.value==inputValue"
+        :selected="item.value == inputValue"
         data-name="option"
         :class="renderClass('', 'option')"
       >
@@ -49,13 +58,21 @@
 
     <label
       data-name="messageLabel"
-      :class="renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')"
+      :class="
+        renderClass('flex items-center min-h-[1.4rem] px-1', 'messageLabel')
+      "
     >
       <span
         data-name="messageSpan"
-        :class="renderClass('label-text-alt text-error text-2xs leading-3', 'messageSpan')"
+        :class="
+          renderClass(
+            'label-text-alt text-error text-2xs leading-3',
+            'messageSpan'
+          )
+        "
       >
-        {{ errorMessage || successMessage }}</span>
+        {{ errorMessage || successMessage }}</span
+      >
     </label>
   </div>
 </template>
@@ -77,7 +94,7 @@ export default {
     },
     label: {
       type: String,
-      default: () => inject("v-select-label", "")
+      default: () => inject("v-select-label", ""),
     },
     successMessage: {
       type: String,
@@ -88,7 +105,9 @@ export default {
       default: () => inject("v-select-placeholder", ""),
     },
     items: {
-      type: Array as PropType<(string[] | number[] | Record<string | number, string | number>[])>,
+      type: Array as PropType<
+        string[] | number[] | Record<string | number, string | number>[]
+      >,
       default: () => [],
     },
     labelField: {
@@ -115,7 +134,7 @@ export default {
   setup(props: any, { emit }) {
     const { renderClass, attrsToBind } = useRenderClass("VSelect");
 
-    const { items } = toRefs(props)
+    const { items } = toRefs(props);
     const {
       value: inputValue,
       errorMessage,
@@ -125,8 +144,8 @@ export default {
       setValue,
     } = useField(toRef(props.name), undefined, {
       ...(props.modelValue != undefined
-      ? { initialValue: props.modelValue }
-      : {}),
+        ? { initialValue: props.modelValue }
+        : {}),
       validateOnValueUpdate: false,
     });
     watchEffect(() => {
@@ -143,7 +162,7 @@ export default {
       if (!items.value || items.value.length === 0) return [];
 
       return items.value.map((item: any) => {
-        if (typeof item === 'string' || typeof item === 'number') {
+        if (typeof item === "string" || typeof item === "number") {
           return {
             label: item,
             value: item,
@@ -190,13 +209,14 @@ export default {
       meta,
       getItems,
       getColorClass,
-      getSizeClass
+      getSizeClass,
     };
   },
 };
 </script>
 <style scoped>
 [dir="rtl"] .select {
-    background-position: calc(100% - (90% + 12px)) calc(1px + 50%), calc(100% - (90% + 16px)) calc(1px + 50%);
+  background-position: calc(100% - (90% + 12px)) calc(1px + 50%),
+    calc(100% - (90% + 16px)) calc(1px + 50%);
 }
 </style>
