@@ -1,13 +1,20 @@
 <template>
   <div class="p-5 flex flex-col">
     <!-- <t-progress-bar :value="69" ></t-progress-bar> -->
-    <div>
+    <!-- <div>
       <t-circle-progress-bar v-model="percent" :stroke="15" :diameter="59" :size="134">
       <div>data</div>
       </t-circle-progress-bar>
-    </div>
+    </div> -->
 
-    <!-- <v-form @submit="onSubmit" :validation-schema="schema" class="flex flex-col gap-y-3">
+    <v-form
+      @submit="onSubmit"
+      :validation-schema="schema"
+      :initial-values="{
+        birthday: '1388/07/05',
+      }"
+      class="flex flex-col gap-y-3"
+    >
       <v-birth-day label="تاریخ تولد" name="birthday"> </v-birth-day>
 
       <v-verification-code-input
@@ -19,7 +26,7 @@
 
       <d-button class="btn btn-primary" type="submit">submit </d-button>
     </v-form>
-    <test-v-search-select></test-v-search-select>
+    <!-- <test-v-search-select></test-v-search-select>
     <test-pagination></test-pagination>
     test Daisy-Forms
     <hr />
@@ -42,7 +49,7 @@ const birthday = ref("1368/3/2");
 // const birthday = ref("");
 const schema = yup.object({
   birthday: yup.string().required(),
-  code: yup.string().required(),
+  // code: yup.string().required(),
 });
 function onSubmit(values: any) {
   console.log("click submit", values);

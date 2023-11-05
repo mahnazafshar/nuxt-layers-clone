@@ -187,7 +187,7 @@ export default {
 
     //*SECTION - functions
     function convertTwoDigit(val: string) {
-      if (parseInt(val) < 10) {
+      if (parseInt(val) < 10 && !val.includes("0", 0)) {
         return "0" + val;
       }
       return val;
