@@ -1,7 +1,7 @@
 {
   "name": "@avapardaz/daisy-forms",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -27,7 +27,7 @@
     "vitest": "^0.33.0"
   },
   "peerDependencies": {
-    "@avapardaz/global-composables": "^0.0.1",
+    "@avapardaz/global-composables": "^0.0.7",
     "@vueuse/core": "^10.2.0",
     "@vueuse/integrations": "^10.4.1",
     "fuse.js": "^6.6.2",

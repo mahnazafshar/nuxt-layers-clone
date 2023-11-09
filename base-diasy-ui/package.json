@@ -1,7 +1,7 @@
 {
   "name": "@avapardaz/base-daisy-ui",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.8",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -28,6 +28,6 @@
   },
   "peerDependencies": {
     "@vueuse/core": "^10.2.1",
-    "@avapardaz/global-composables": "^0.0.1"
+    "@avapardaz/global-composables": "^0.0.7"
   }
 }

@@ -21,5 +21,5 @@ export const useToast = (key='--toast--') => {
           close();
       },duration)
   }
-  return { showToast, toastRef };
+  return { showToast, toastRef, close };
 }

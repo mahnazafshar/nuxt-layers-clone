@@ -20,10 +20,10 @@
   "resolved" "https://registry.npmjs.org/@antfu/utils/-/utils-0.7.6.tgz"
   "version" "0.7.6"
 
-"@avapardaz/global-composables@^0.0.1":
-  "integrity" "sha512-0Ds63GLfmVIE2jsmj08kTgF16AYuCeebDEkdxMLnhlzGd7ybJxWBEmbzBFW4dqV658c+VGZgGBL78hN0VWdO0w=="
-  "resolved" "https://registry.npmjs.org/@avapardaz/global-composables/-/global-composables-0.0.1.tgz"
-  "version" "0.0.1"
+"@avapardaz/global-composables@^0.0.6":
+  "integrity" "sha512-CgiH8KTaSx89uQj0MH9CNpvXW7fumk3c9KcCQsspoRPBWH+qtaoytUcL0k0B9lB+Tn5BiIR9oLcNoufBJvHcZA=="
+  "resolved" "https://registry.npmjs.org/@avapardaz/global-composables/-/global-composables-0.0.6.tgz"
+  "version" "0.0.6"
 
 "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.22.13":
   "integrity" "sha512-XktuhWlJ5g+3TJXc5upd9Ks1HutSArik6jf2eAjYFyIOf4ej3RN+184cZbzDvbPnuTJIUhPKKJE3cIsYTiAT3w=="
