@@ -32,7 +32,7 @@ import {
   inject,
   watchEffect,
 } from "vue";
-import { TabProvider } from "./TTabs.vue";
+import type { TabProvider } from "./TTabs.vue";
 export default defineComponent({
   name: "TTabItem",
   inheritAttrs: false,

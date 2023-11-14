@@ -120,6 +120,7 @@
 
 <script lang="ts">
 import { provide } from "vue";
+import type { VNode } from "vue";
 import { useEventListener, useIntersectionObserver } from "@vueuse/core";
 interface TabProps {
   title: string;
@@ -127,7 +128,7 @@ interface TabProps {
 }
 export interface TabProvider {
   selectedIndex: number;
-  tabs: any[];
+  tabs: VNode<TabProps>[];
   count: number;
 }
 
