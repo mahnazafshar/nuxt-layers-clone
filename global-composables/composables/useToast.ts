@@ -19,7 +19,7 @@ export const useToast = (key='--toast--') => {
       }
        timeout=setTimeout(()=>{
           close();
-      },duration)
+      },duration||3000)
   }
   return { showToast, toastRef, close };
 }
