@@ -33,7 +33,10 @@
         v-if="!hasAnyFile"
         data-name="text"
         :class="
-          renderClass('absolute inset-0 pointer-events-none t-center', 'text')
+          renderClass(
+            'absolute inset-0 pointer-events-none flex justify-center items-center',
+            'text'
+          )
         "
       >
         <slot name="selectFile">
@@ -47,8 +50,14 @@
           <img :src="getImageUrl" alt="" />
         </slot>
         <div
+          data-name="delete"
           v-if="fileName"
-          class="tw-flex absolute top-0 left-0 tw-cursor-pointer"
+          :class="
+            renderClass(
+              'tw-flex absolute top-0 left-0 tw-cursor-pointer',
+              'delete'
+            )
+          "
           @click.stop.prevent="onDelete"
         >
           <slot name="deleteFile">

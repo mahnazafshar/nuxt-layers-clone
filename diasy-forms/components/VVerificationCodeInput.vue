@@ -14,6 +14,7 @@
         v-for="(item, index) in length"
         data-name="input"
         v-model="code[index]"
+        v-bind="index == 0 ? { autofocus: true } : {}"
         :key="index"
         :class="
           renderClass('w-12 h-12 p-0 text-center input input-bordered', 'input')
