@@ -36,7 +36,12 @@
           :class="renderClass(`collapse-title ${titleClass}`, 'title')"
           class=""
         >
-          <slot name="title" :title="item.title">
+          <slot
+            name="title"
+            :title="item.title"
+            :isOpen="selectedIndex === index"
+            :index="index"
+          >
             {{ item.title }}
           </slot>
         </div>
@@ -44,7 +49,12 @@
           data-name="content"
           :class="renderClass(`collapse-content ${contentClass}`, 'content')"
         >
-          <slot name="content" :content="item.content">
+          <slot
+            name="content"
+            :content="item.content"
+            :isOpen="selectedIndex === index"
+            :index="index"
+          >
             {{ item.content }}
           </slot>
         </div>
