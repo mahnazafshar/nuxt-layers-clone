@@ -68,6 +68,10 @@ export default {
       type: Number,
       default: 4,
     },
+    autoFocus: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props, { emit }) {
     const { renderClass, attrsToBind } = useRenderClass(
@@ -104,6 +108,11 @@ export default {
     const setChildrenRef = (el: HTMLInputElement, index: number) => {
       if (el) childrenRef.value[index] = el;
     };
+    onMounted(() => {
+      if (props.autoFocus) {
+        childrenRef?.value[0]?.focus();
+      }
+    });
 
     function changeActiveFocus(e: InputEvent, index: number) {
       if (e.data) {

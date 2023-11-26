@@ -6,7 +6,6 @@
       <div>data</div>
       </t-circle-progress-bar>
     </div> -->
-
     <v-form
       @submit="onSubmit"
       :validation-schema="schema"
@@ -22,6 +21,7 @@
         name="code"
         data-input-delete="h-12 w-12"
         data-input-add="h-14 w-14"
+        :auto-focus="true"
       ></v-verification-code-input>
 
       <d-button class="btn btn-primary" type="submit">submit </d-button>
