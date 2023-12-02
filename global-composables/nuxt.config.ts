@@ -12,5 +12,6 @@ export default defineNuxtConfig({
   ],
   build: {
     transpile: ['gsap'],
-  }
+  },
+  modules: ["@nuxtjs/device"],
 })
