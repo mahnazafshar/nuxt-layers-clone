@@ -35,7 +35,7 @@
             'input'
           )
         "
-        @change="handleChange"
+        @change="setValue(checked ? uncheckedValue : checkedValue)"
       />
       <slot name="label" :checked="checked" :disabled="disabled">
         <span class="label-text">{{ label }}</span>
@@ -200,6 +200,7 @@ export default {
       renderClass,
       attrsToBind,
       handleChange,
+      setValue,
       handleBlur,
       errorMessage,
       inputValue,
