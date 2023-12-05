@@ -3,7 +3,8 @@ interface ValueToRoutesConfig{
   mergeParams?:boolean,
   mergeQuery?:boolean,
   removeQueryOnParamsChange?:boolean,
-  pushOnParamsChange?:boolean
+  pushOnParamsChange?:boolean,
+  queryKeysToKeep?:string[]
 }
 
 const removeEmpty = (obj) => {
@@ -44,6 +45,13 @@ export const useRouteForm=(onChange=()=>{})=>{
     const paramsChanged=JSON.stringify(route.params)!==JSON.stringify(newParams);
     if(paramsChanged&&config.removeQueryOnParamsChange){
       newQuery={}
+    }
+    if(config.queryKeysToKeep){
+      config.queryKeysToKeep.forEach((item)=>{
+        if(route.query[item]){
+          newQuery[item]=route.query[item]
+        }
+      })
     }
     // console.log("setValues called",newParams)
    return new Promise((resolve)=>{
