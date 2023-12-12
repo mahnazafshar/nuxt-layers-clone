@@ -24,6 +24,7 @@
     </label>
     <input
       ref="inputRef"
+      inputmode="numeric"
       data-name="input"
       autocomplete="off"
       v-bind="$attrs"

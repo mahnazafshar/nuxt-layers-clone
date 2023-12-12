@@ -1,5 +1,5 @@
 import { Ref } from "vue"
-export const useUiState = (sharedKey = '') => {
+export const useUiState = (sharedKey = '',config:{closeOnUnmounted?:boolean}={}) => {
     const defineRef = <K>(defaultValue: K, prefix = '') => {
         if (sharedKey) {
             return useState<K>(prefix + sharedKey, () => defaultValue) as Ref<K>
@@ -32,5 +32,10 @@ export const useUiState = (sharedKey = '') => {
       resetKey.value++
       close();
     }
+    onUnmounted(() => {
+      if(config.closeOnUnmounted){
+        close();
+      }
+    })
     return { model, open, close, toggle,openWithReset,closeWithReset, setState,resetKey }
 }

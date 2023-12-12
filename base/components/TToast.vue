@@ -10,18 +10,21 @@
     "
     v-bind="attrsToBind"
   >
-    {{ toastRef.message }}
+    <slot name="default" :message="toastRef.message" :type="toastRef.type">
+      {{ toastRef.message }}
+    </slot>
   </div>
 </template>
 
 <script setup lang="ts">
 //bg-primary bg-warning bg-error
 import gsap from "gsap";
+const props = withDefaults(defineProps<{ key: string }>({ key: "--toast--" }));
 defineOptions({
   inheritAttrs: false,
 });
 const { renderClass, attrsToBind } = useRenderClass("TToast");
-const { toastRef } = useToast();
+const { toastRef } = useToast(props.key);
 const target = ref<HTMLElement | null>(null);
 let animation: any;
 const setAnimation = (): void => {

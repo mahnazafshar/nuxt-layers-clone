@@ -7,6 +7,9 @@ export const useLoadMore=(data:Ref<WithPagination<any>>,getList:(page:number)=>P
     if(appending.value){
       return;
     }
+    if(!unref(data)?._meta){
+      return;
+    }
     if(unref(data)._meta.currentPage>=unref(data)._meta.pageCount){
       return;
     }
