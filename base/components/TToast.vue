@@ -19,7 +19,9 @@
 <script setup lang="ts">
 //bg-primary bg-warning bg-error
 import gsap from "gsap";
-const props = withDefaults(defineProps<{ key: string }>({ key: "--toast--" }));
+const props = withDefaults(defineProps<{ key: string }>(), {
+  key: "--toast--",
+});
 defineOptions({
   inheritAttrs: false,
 });
