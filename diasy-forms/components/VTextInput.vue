@@ -2,7 +2,7 @@
   <div
     data-name="container"
     :class="
-      renderClass('form-control gap-y-2', 'container', {
+      renderClass('form-control', 'container', {
         'has-error': !!errorMessage,
         success: meta.valid,
       })
@@ -12,7 +12,9 @@
     <label
       v-if="label !== ''"
       data-name="labelContainer"
-      :class="renderClass('t-row justify-between  px-1', 'labelContainer')"
+      :class="
+        renderClass('t-row justify-between pb-1.5 px-1', 'labelContainer')
+      "
       :for="name"
     >
       <span data-name="label" :class="renderClass('label-text', 'label')">{{
