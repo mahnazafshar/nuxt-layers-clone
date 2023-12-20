@@ -6,15 +6,19 @@
       <div>data</div>
       </t-circle-progress-bar>
     </div> -->
+
     <v-form
       @submit="onSubmit"
       :validation-schema="schema"
       :initial-values="{
         birthday: '1388/07/05',
+        iban: '',
       }"
       class="flex flex-col gap-y-3"
     >
-      <v-birth-day label="تاریخ تولد" name="birthday"> </v-birth-day>
+      mask:
+      <v-mask-input name="iban"></v-mask-input>
+      <!-- <v-birth-day label="تاریخ تولد" name="birthday"> </v-birth-day>
 
       <v-verification-code-input
         :length="4"
@@ -22,7 +26,7 @@
         data-input-delete="h-12 w-12"
         data-input-add="h-14 w-14"
         :auto-focus="true"
-      ></v-verification-code-input>
+      ></v-verification-code-input> -->
 
       <d-button class="btn btn-primary" type="submit">submit </d-button>
     </v-form>
@@ -48,7 +52,8 @@ const code = ref("");
 const birthday = ref("1368/3/2");
 // const birthday = ref("");
 const schema = yup.object({
-  birthday: yup.string().required(),
+  // birthday: yup.string().required(),
+  iban: yup.string().required(),
   // code: yup.string().required(),
 });
 function onSubmit(values: any) {
