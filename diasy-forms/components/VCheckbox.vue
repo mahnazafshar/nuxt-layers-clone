@@ -43,7 +43,7 @@
       <slot name="leftLabel" />
     </label>
 
-    <slot name="messageLabel">
+    <slot name="messageLabel" :errorMessage="errorMessage">
       <label
         data-name="messageLabel"
         :class="

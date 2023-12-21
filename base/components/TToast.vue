@@ -10,7 +10,12 @@
     "
     v-bind="attrsToBind"
   >
-    <slot name="default" :message="toastRef.message" :type="toastRef.type">
+    <slot
+      name="default"
+      :message="toastRef.message"
+      :type="toastRef.type"
+      :close="close"
+    >
       {{ toastRef.message }}
     </slot>
   </div>
@@ -26,7 +31,7 @@ defineOptions({
   inheritAttrs: false,
 });
 const { renderClass, attrsToBind } = useRenderClass("TToast");
-const { toastRef } = useToast(props.key);
+const { toastRef, close } = useToast(props.key);
 const target = ref<HTMLElement | null>(null);
 let animation: any;
 const setAnimation = (): void => {

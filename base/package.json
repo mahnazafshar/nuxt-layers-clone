@@ -1,7 +1,7 @@
 {
   "name": "@avapardaz/base",
   "type": "module",
-  "version": "0.1.13",
+  "version": "0.1.15",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -27,7 +27,7 @@
     "vitest": "^0.33.0"
   },
   "peerDependencies": {
-    "@avapardaz/global-composables": "^0.1.13",
+    "@avapardaz/global-composables": "^0.1.15",
     "@vueuse/core": "^10.7.0",
     "gsap": "^3.12.1"
   }
