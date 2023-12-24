@@ -1,3 +1,4 @@
+import { watchDebounced } from '@vueuse/core'
 export const useWatchQuery=(onChange:Function,{ignore}:{ignore:string[]}={ignore:[]})=>{
   const route=useRoute();
   const getQuery=computed(()=>{
@@ -9,9 +10,9 @@ export const useWatchQuery=(onChange:Function,{ignore}:{ignore:string[]}={ignore
     })
     return query;
   })
-  watch(getQuery,(value,oldValue)=>{
+  watchDebounced(getQuery,(value,oldValue)=>{
     if(JSON.stringify(value)!=JSON.stringify(oldValue)){
       onChange(value,oldValue);
     }
-  })
+  },{debounce:200})
 }

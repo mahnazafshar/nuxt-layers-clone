@@ -1,4 +1,4 @@
-// import { watchPausable } from '@vueuse/core'
+import { watchDebounced } from '@vueuse/core'
 interface ValueToRoutesConfig{
   mergeParams?:boolean,
   mergeQuery?:boolean,
@@ -15,10 +15,10 @@ const removeEmpty = (obj) => {
   });
   return newObj;
 };
-export const useRouteForm=(onChange=()=>{})=>{
+export const useRouteForm=(onChange=()=>{},initialValues={})=>{
   const route=useRoute();
   const routeParams=Object.keys(route.params)
-  const { handleSubmit, values,setValues,setFieldValue,meta,resetForm } = useForm({initialValues:{...route.query,...route.params}});
+  const { handleSubmit, values,setValues,setFieldValue,meta,resetForm } = useForm({initialValues:{...initialValues,...route.query,...route.params}});
   const resetValues=()=>{
     Object.keys(unref(values)).forEach((value)=>{
       setFieldValue(value,undefined)
@@ -65,15 +65,19 @@ export const useRouteForm=(onChange=()=>{})=>{
    })
 
   }
-     watch(
-        values,
-        () => {
-         if(meta.value.dirty){
-           onChange();
-         }
-        },
-        { deep: true }
-      );
+  onMounted(()=>{
+    setTimeout(() => {
+      watchDebounced(
+         values,
+         () => {
+          if(meta.value.dirty){
+            onChange();
+          }
+         },
+         { deep: true,debounce:500 }
+       );
+    }, 100);
+  })
 
       // const initialPath=useState(route.name+'--pause-route',()=>route.path)
       // if(initialPath.value==route.path){
