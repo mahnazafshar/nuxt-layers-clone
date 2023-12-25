@@ -1,4 +1,3 @@
-import { watchDebounced } from '@vueuse/core'
 interface ValueToRoutesConfig{
   mergeParams?:boolean,
   mergeQuery?:boolean,
@@ -67,7 +66,7 @@ export const useRouteForm=(onChange=()=>{},initialValues={})=>{
   }
   onMounted(()=>{
     setTimeout(() => {
-      watchDebounced(
+      watch(
          values,
          () => {
           if(meta.value.dirty){

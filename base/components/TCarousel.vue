@@ -317,7 +317,7 @@ export default defineComponent({
         xDistance += childrenRef.value[index].clientWidth;
         index++;
       }
-      return index;
+      return Math.min(index, props.items.length - 1);
     };
     const witchItemIsMiddle = () => {
       const { el } = getConfig();
@@ -334,7 +334,7 @@ export default defineComponent({
         xDistance += childrenRef.value[index].clientWidth;
         index++;
       }
-      return index;
+      return Math.min(index, props.items.length - 1);
     };
     const witchItemIsEnd = () => {
       const { el } = getConfig();
@@ -351,7 +351,7 @@ export default defineComponent({
         xDistance += childrenRef.value[index].clientWidth;
         index++;
       }
-      return index;
+      return Math.min(index, props.items.length - 1);
     };
     const setMiddleIfIsSlider = () => {
       if (props.slider) {

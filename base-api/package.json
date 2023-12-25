@@ -1,7 +1,7 @@
 {
   "name": "@avapardaz/base-api",
   "type": "module",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
