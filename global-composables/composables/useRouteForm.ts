@@ -1,3 +1,4 @@
+import { watchDebounced } from '@vueuse/core'
 interface ValueToRoutesConfig{
   mergeParams?:boolean,
   mergeQuery?:boolean,
@@ -14,7 +15,7 @@ const removeEmpty = (obj) => {
   });
   return newObj;
 };
-export const useRouteForm=(onChange=()=>{},initialValues={})=>{
+export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,any>={})=>{
   const route=useRoute();
   const routeParams=Object.keys(route.params)
   const { handleSubmit, values,setValues,setFieldValue,meta,resetForm } = useForm({initialValues:{...initialValues,...route.query,...route.params}});
@@ -39,8 +40,8 @@ export const useRouteForm=(onChange=()=>{},initialValues={})=>{
 
   const setValuesToRoute=(navigateConfig={replace:true},config:ValueToRoutesConfig={}):Promise<boolean>=>{
     config={mergeParams:true,mergeQuery:false,removeQueryOnParamsChange:true,pushOnParamsChange:true,...config}
-    const newParams=config.mergeParams?{...route.params,...unref(splitQueryAndParams).params}:unref(splitQueryAndParams).params
-    let newQuery=config.mergeQuery?{...route.query,...unref(splitQueryAndParams).query}:unref(splitQueryAndParams).query;
+    const newParams:Record<string,any>=config.mergeParams?{...route.params,...unref(splitQueryAndParams).params}:unref(splitQueryAndParams).params
+    let newQuery:Record<string,any>=config.mergeQuery?{...route.query,...unref(splitQueryAndParams).query}:unref(splitQueryAndParams).query;
     const paramsChanged=JSON.stringify(route.params)!==JSON.stringify(newParams);
     if(paramsChanged&&config.removeQueryOnParamsChange){
       newQuery={}
@@ -52,6 +53,14 @@ export const useRouteForm=(onChange=()=>{},initialValues={})=>{
         }
       })
     }
+   for(const key in initialValues){//remove initialValues to prevent extra navigation
+    if(newQuery[key]&&JSON.stringify(newQuery[key])==JSON.stringify(initialValues[key])){
+      delete newQuery[key];
+    }
+    if(newParams[key]&&JSON.stringify(newParams[key])==JSON.stringify(initialValues[key])){
+      delete newParams[key];
+    }
+   }
     // console.log("setValues called",newParams)
    return new Promise((resolve)=>{
     navigateTo({
@@ -64,19 +73,18 @@ export const useRouteForm=(onChange=()=>{},initialValues={})=>{
    })
 
   }
-  onMounted(()=>{
-    setTimeout(() => {
-      watch(
+
+      watchDebounced(
          values,
          () => {
           if(meta.value.dirty){
             onChange();
           }
          },
-         { deep: true,debounce:500 }
+         { deep: true,debounce:200 }
        );
-    }, 100);
-  })
+
+
 
       // const initialPath=useState(route.name+'--pause-route',()=>route.path)
       // if(initialPath.value==route.path){

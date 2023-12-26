@@ -10,12 +10,7 @@
     "
     v-bind="attrsToBind"
   >
-    <slot
-      name="default"
-      :message="toastRef.message"
-      :type="toastRef.type"
-      :close="close"
-    >
+    <slot name="default" :close="close" v-bind="toastRef">
       {{ toastRef.message }}
     </slot>
   </div>
