@@ -16,7 +16,7 @@ export const useToast = (key='--toast--') => {
   const initialValues={ show: false, message: '', type: ToastEnum.info,action:{} }
   const toastRef = useState<Toast>(key, () => (initialValues));
   const close=() => {
-      toastRef.value = initialValues
+      toastRef.value =  { ...toastRef.value, show: false }
   }
 
   let timeout:any;
