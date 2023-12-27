@@ -40,7 +40,7 @@
         data-name="nav"
         :class="
           renderClass(
-            'flex items-center flex-row max-w-full overflow-x-auto scrollbar-hidden py-1',
+            'flex items-center flex-row max-w-full overflow-x-auto scrollbar-hidden py-1 select-none',
             'nav'
           )
         "

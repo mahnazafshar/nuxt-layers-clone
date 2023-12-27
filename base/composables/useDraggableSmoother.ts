@@ -15,6 +15,7 @@ export const useDraggableSmoother = (el, { getValidX, onComplete }) => {
   let timestamp = 0;
   let mx = 0;
   let speed;
+  let distance;
   useEventListener(window, ["mousemove", "touchmove"], function (event) {
     if (mouseIsDown) {
       const getX = () => {
@@ -23,7 +24,7 @@ export const useDraggableSmoother = (el, { getValidX, onComplete }) => {
       let now = Date.now();
       const currentmx = getX();
       let dt = now - timestamp;
-      let distance = Math.abs(currentmx - mx);
+       distance = Math.abs(currentmx - mx);
       speed = Math.round((distance / dt) * 1000);
       // console.log("speed", speed);
 
@@ -39,7 +40,7 @@ export const useDraggableSmoother = (el, { getValidX, onComplete }) => {
       oldx = getX();
 
       const currentX = +gsap.getProperty(unref(el), "x");
-      if (speed > 10) {
+      if (speed > 15) {
         anim = gsap.to(draggable, {
           duration: 0.5,
           overwrite: true,
@@ -57,15 +58,15 @@ export const useDraggableSmoother = (el, { getValidX, onComplete }) => {
       //if mouse was down on draggable area
       anim?.kill();
       const currentX = +gsap.getProperty(unref(el), "x");
-      if (speed > 10) {
+      if (speed > 15&&distance>5) {
         //don't animate if click
         gsap.to(draggable, {
           duration: 0.5,
           overwrite: true,
           x:
             direction == "right"
-              ? getValidX(currentX + speed / 6)
-              : getValidX(currentX - speed / 6),
+              ? getValidX(currentX + speed / 7)
+              : getValidX(currentX - speed / 7),
           onComplete: () => {
             onComplete?.();
           },

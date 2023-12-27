@@ -356,7 +356,7 @@ export default defineComponent({
     const setMiddleIfIsSlider = () => {
       if (props.slider) {
         const index = witchItemIsMiddle();
-        setActiveIndexMiddle(index);
+        setActiveIndexMiddle(index, 0.2);
       }
     };
 
@@ -411,6 +411,7 @@ export default defineComponent({
     onMounted(() => {
       gsap.registerPlugin(Draggable);
       const { el, maxX } = getConfig();
+      let isDragging = false;
       Draggable.create(unref(el), {
         type: "x",
         edgeResistance: 0.9,
@@ -418,7 +419,13 @@ export default defineComponent({
         //@ts-ignore
         bounds: { minX: 0, maxX },
         throwProps: true,
-        minimumMovement: 6,
+        minimumMovement: 10,
+        onDragStart() {
+          isDragging = true;
+        },
+        onDragEnd() {
+          isDragging = false;
+        },
       });
       setMiddleIfIsSlider();
 
@@ -432,6 +439,9 @@ export default defineComponent({
       useEventListener(window, "resize", recalculate);
       if (props.autoPlayInterval > 0) {
         useIntervalFn(() => {
+          if (isDragging) {
+            return;
+          }
           if (!childrenRef.value[unref(middleItemRef) + 1]) {
             middleItemRef.value = -1;
             clickNext(0.2);

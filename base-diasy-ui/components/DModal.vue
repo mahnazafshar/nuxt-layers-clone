@@ -117,6 +117,9 @@ export default defineComponent({
       useEventListener(dialogRef.value, "close", () => {
         emit("update:modelValue", false);
       });
+      if (props.modelValue) {
+        showModal();
+      }
     });
 
     return { dialogRef, renderClass, attrsToBind };
