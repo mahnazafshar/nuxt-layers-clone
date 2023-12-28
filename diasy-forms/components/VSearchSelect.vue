@@ -9,6 +9,7 @@
       name="search"
       data-name="input"
       :class="renderClass('', 'input')"
+      :placeholder="placeholderSearch"
     ></v-text-input>
     <div data-name="wrapper" :class="renderClass('flex flex-col', 'wrapper')">
       <template v-if="results.length > 0">
@@ -61,6 +62,10 @@ export default {
     selectable: {
       type: Boolean,
       default: true,
+    },
+    placeholderSearch: {
+      type: String,
+      default: "جستجو کنید",
     },
   },
   setup(props, { emit }) {
