@@ -412,7 +412,7 @@ export default defineComponent({
       gsap.registerPlugin(Draggable);
       const { el, maxX } = getConfig();
       let isDragging = false;
-      Draggable.create(unref(el), {
+      const myDraggable = Draggable.create(unref(el), {
         type: "x",
         edgeResistance: 0.9,
         allowContextMenu: props.allowContextMenu,
@@ -428,10 +428,18 @@ export default defineComponent({
         },
       });
       setMiddleIfIsSlider();
+      // myDraggable[0].disable();
 
       useDraggableSmoother(el, {
         getValidX,
+        onStart: () => {
+          isDragging = true;
+        },
         onComplete: () => {
+          setTimeout(() => {
+            isDragging = false;
+          }, props.autoPlayInterval);
+          // myDraggable[0].enable();
           setMiddleIfIsSlider();
           onAnimationComplete();
         },
