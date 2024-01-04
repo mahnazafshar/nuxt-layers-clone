@@ -82,7 +82,12 @@
       <div
         ref="sliderWrapperRef"
         data-name="wrapper"
-        :class="renderClass('flex', 'wrapper')"
+        :class="
+          renderClass('flex', 'wrapper', {
+            'overflow-x-auto scroll-smooth carousel-wrapper-when-native-scrollbar-enabled':
+              shouldUseNativeScroll,
+          })
+        "
       >
         <template v-for="(item, index) in items" :key="index">
           <div
@@ -187,9 +192,16 @@ export default defineComponent({
       type: String,
       default: "bg-white",
     },
+    useNativeScroll: {
+      type: Boolean,
+      default: () => inject("t-carousel-useNativeScroll", false),
+    },
   },
   emits: ["update:middle"],
   setup(props, { emit }) {
+    const shouldUseNativeScroll = computed(
+      () => props.useNativeScroll && !props.slider
+    );
     const { isRtl } = useDirection();
     const sliderWrapperRef = ref<any>(null);
     const childrenRef = ref<any>([]);
@@ -220,10 +232,34 @@ export default defineComponent({
         clickPrevIsDisabled.value = x == 0;
       }
     };
+    const getX = () => {
+      const { el } = getConfig();
+      if (unref(shouldUseNativeScroll)) {
+        return unref(el).scrollLeft * -1;
+      }
+
+      return gsap.getProperty(unref(el), "x");
+    };
+    const setX = (x: number, duration = -1) => {
+      const { el } = getConfig();
+      if (unref(shouldUseNativeScroll)) {
+        unref(el).scrollLeft = x * -1;
+      } else {
+        gsap.to(unref(el), {
+          x,
+          overwrite: true,
+          ...props.config,
+          ...(duration > 0 ? { duration } : {}),
+          onComplete: onAnimationComplete,
+        });
+      }
+    };
     const recalculate = () => {
-      const { el, maxX } = getConfig();
-      //@ts-ignore
-      Draggable.get(unref(el)).applyBounds({ minX: 0, maxX });
+      if (!unref(shouldUseNativeScroll)) {
+        const { el, maxX } = getConfig();
+        //@ts-ignore
+        Draggable.get(unref(el)).applyBounds({ minX: 0, maxX });
+      }
     };
     onUpdated(() => {
       recalculate();
@@ -262,51 +298,31 @@ export default defineComponent({
       if (childrenRef.value[activeIndex]) {
         const { el } = getConfig();
         const xDistance = getPrevItemsWidth(activeIndex);
-        gsap.to(unref(el), {
-          x: getValidX(xDistance),
-          overwrite: true,
-          ...props.config,
-          onComplete: onAnimationComplete,
-        });
+        setX(getValidX(xDistance));
       }
     };
     const setActiveIndexEnd = (activeIndex: number) => {
       //move to last item
       if (childrenRef.value[activeIndex]) {
-        const { el } = getConfig();
         const xDistance = getPrevItemsWidth(activeIndex);
         const visibleBack = getVisibleBack(activeIndex);
-        gsap.to(unref(el), {
-          x: getValidX(xDistance - visibleBack),
-          overwrite: true,
-          ...props.config,
-          onComplete: onAnimationComplete,
-        });
+        setX(getValidX(xDistance - visibleBack));
       }
     };
     const middleItemRef = ref(-1);
     const setActiveIndexMiddle = (activeIndex: number, duration = -1) => {
       //move to middle item
       if (childrenRef.value[activeIndex]) {
-        const { el } = getConfig();
         const xDistance = getPrevItemsWidth(activeIndex);
         const visibleBack = getVisibleBack(activeIndex);
-        gsap.to(unref(el), {
-          x: getValidX(xDistance - visibleBack / 2),
-          overwrite: true,
-          ...props.config,
-          duration: duration >= 0 ? duration : props.config.duration,
-          onComplete: onAnimationComplete,
-        });
+        setX(getValidX(xDistance - visibleBack / 2), duration);
         middleItemRef.value = activeIndex;
         emit("update:middle", activeIndex);
       }
     };
 
     const witchItemIsStart = () => {
-      const { el } = getConfig();
-
-      const currentX = Math.abs(+gsap.getProperty(unref(el), "x"));
+      const currentX = Math.abs(+getX());
       if (currentX == 0) {
         return 0;
       }
@@ -322,7 +338,7 @@ export default defineComponent({
     const witchItemIsMiddle = () => {
       const { el } = getConfig();
 
-      let currentX = Math.abs(+gsap.getProperty(unref(el), "x"));
+      let currentX = Math.abs(+getX());
       currentX += (unref(el)?.clientWidth || 0) / 2;
       if (currentX == 0) {
         return 0;
@@ -339,7 +355,7 @@ export default defineComponent({
     const witchItemIsEnd = () => {
       const { el } = getConfig();
 
-      let currentX = Math.abs(+gsap.getProperty(unref(el), "x"));
+      let currentX = Math.abs(+getX());
       currentX += unref(el)?.clientWidth || 0;
       if (currentX == 0) {
         return 0;
@@ -384,14 +400,9 @@ export default defineComponent({
         return;
       }
       const { el } = getConfig();
-      const currentX = gsap.getProperty(unref(el), "x");
+      const currentX = getX();
       const plusX = unref(el)!.clientWidth;
-      gsap.to(unref(el), {
-        x: getValidX(unref(isRtl) ? +currentX + plusX : +currentX - plusX),
-        overwrite: true,
-        ...props.config,
-        onComplete: onAnimationComplete,
-      });
+      setX(getValidX(unref(isRtl) ? +currentX + plusX : +currentX - plusX));
     };
     const clickPrev = () => {
       if (props.slider) {
@@ -399,64 +410,61 @@ export default defineComponent({
         return;
       }
       const { el } = getConfig();
-      const currentX = gsap.getProperty(unref(el), "x");
+      const currentX = getX();
       const plusX = unref(el)!.clientWidth;
-      gsap.to(unref(el), {
-        x: getValidX(unref(isRtl) ? +currentX - plusX : +currentX + plusX),
-        overwrite: true,
-        ...props.config,
-        onComplete: onAnimationComplete,
-      });
+      setX(getValidX(unref(isRtl) ? +currentX - plusX : +currentX + plusX));
     };
     onMounted(() => {
-      gsap.registerPlugin(Draggable);
-      const { el, maxX } = getConfig();
-      let isDragging = false;
-      const myDraggable = Draggable.create(unref(el), {
-        type: "x",
-        edgeResistance: 0.9,
-        allowContextMenu: props.allowContextMenu,
-        //@ts-ignore
-        bounds: { minX: 0, maxX },
-        throwProps: true,
-        minimumMovement: 10,
-        onDragStart() {
-          isDragging = true;
-        },
-        onDragEnd() {
-          isDragging = false;
-        },
-      });
-      setMiddleIfIsSlider();
-      // myDraggable[0].disable();
-
-      useDraggableSmoother(el, {
-        getValidX,
-        onStart: () => {
-          isDragging = true;
-        },
-        onComplete: () => {
-          setTimeout(() => {
+      if (!unref(shouldUseNativeScroll)) {
+        gsap.registerPlugin(Draggable);
+        const { el, maxX } = getConfig();
+        let isDragging = false;
+        Draggable.create(unref(el), {
+          type: "x",
+          edgeResistance: 0.9,
+          allowContextMenu: props.allowContextMenu,
+          //@ts-ignore
+          bounds: { minX: 0, maxX },
+          throwProps: true,
+          minimumMovement: 10,
+          onDragStart() {
+            isDragging = true;
+          },
+          onDragEnd() {
             isDragging = false;
+          },
+        });
+        setMiddleIfIsSlider();
+        // myDraggable[0].disable();
+
+        useDraggableSmoother(el, {
+          getValidX,
+          onStart: () => {
+            isDragging = true;
+          },
+          onComplete: () => {
+            setTimeout(() => {
+              isDragging = false;
+            }, props.autoPlayInterval);
+            // myDraggable[0].enable();
+            setMiddleIfIsSlider();
+            onAnimationComplete();
+          },
+        });
+        useEventListener(window, "resize", recalculate);
+        if (props.autoPlayInterval > 0) {
+          useIntervalFn(() => {
+            if (isDragging) {
+              return;
+            }
+            if (!childrenRef.value[unref(middleItemRef) + 1]) {
+              middleItemRef.value = -1;
+              clickNext(0.2);
+            } else {
+              clickNext();
+            }
           }, props.autoPlayInterval);
-          // myDraggable[0].enable();
-          setMiddleIfIsSlider();
-          onAnimationComplete();
-        },
-      });
-      useEventListener(window, "resize", recalculate);
-      if (props.autoPlayInterval > 0) {
-        useIntervalFn(() => {
-          if (isDragging) {
-            return;
-          }
-          if (!childrenRef.value[unref(middleItemRef) + 1]) {
-            middleItemRef.value = -1;
-            clickNext(0.2);
-          } else {
-            clickNext();
-          }
-        }, props.autoPlayInterval);
+        }
       }
     });
     const { renderClass, attrsToBind } = useRenderClass("TCarousel");
@@ -472,6 +480,7 @@ export default defineComponent({
       clickPrev,
       sliderWrapperRef,
       setChildrenRef,
+      shouldUseNativeScroll,
     };
   },
 });

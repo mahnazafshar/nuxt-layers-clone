@@ -29,10 +29,15 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
                 return response as unknown as R
             })
             .catch((e) => {
+              if(e.name === 'AbortError'||config.signal?.aborted){
+                return;
+              }
+
                 if (customConfig.debug && process.dev) {
                     throw Error(e);
                 }
-                customConfig.onError?.(e)
+                customConfig.onError?.(e,{ statusMessage: e?.response?.statusText || appConfig['base-api'].defaultErrorMessage,
+                statusCode: e?.response?.status || 500})
                 if (customConfig.ignoreErrors&&  e.response.status !== 401) {
                     return;
                 }

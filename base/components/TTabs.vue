@@ -45,7 +45,11 @@
           )
         "
       >
-        <div ref="startItem" class="w-1 h-1 px-1"></div>
+        <div
+          ref="startItem"
+          data-name="startItem"
+          :class="renderClass('w-1 h-1 px-1', 'startItem')"
+        ></div>
         <template v-if="hasTitleSlot">
           <div
             v-for="(tab, index) in tabs"
@@ -81,7 +85,10 @@
         >
           {{ tab.props.title }}
         </button>
-        <div ref="endItem" class="w-1 h-1 px-1"></div>
+        <div
+          ref="endItem"
+          :class="renderClass('w-1 h-1 px-1', 'endItem')"
+        ></div>
         <slot name="append"></slot>
       </nav>
       <div v-if="showArrows" @click="onScrollLeft">
