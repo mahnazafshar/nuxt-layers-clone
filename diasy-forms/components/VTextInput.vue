@@ -139,7 +139,10 @@ export default {
     });
 
     const customHandleChange = (event) => {
-      event.target.value = latinNumber(event.target.value);
+      // console.log("onchange", attrs, props.type);
+      if (attrs?.inputmode == "numeric") {
+        event.target.value = latinNumber(event?.target?.value);
+      }
       handleChange(event);
     };
     watchEffect(() => {
