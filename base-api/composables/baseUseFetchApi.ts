@@ -74,6 +74,7 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
                         showError({
                             statusMessage: e?.response?.statusText || appConfig['base-api'].defaultErrorMessage,
                             statusCode: e?.response?.status || 500,
+                            data:{api:true}
                         })
                     } else if (customConfig.toastError) {
                         showToast(e?.response?.statusText ||  appConfig['base-api'].defaultErrorMessage)
