@@ -33,7 +33,7 @@
         :type="type"
         :value="inputValue"
         :placeholder="placeholder"
-        @input="handleChange"
+        @input="customHandleChange"
         @blur="handleBlur"
       />
     </template>
@@ -48,7 +48,7 @@
         :type="type"
         :value="inputValue"
         :placeholder="placeholder"
-        @input="handleChange"
+        @input="customHandleChange"
         @blur="handleBlur"
       />
     </template>
@@ -78,6 +78,7 @@
 
 <script lang="ts">
 import { useField } from "vee-validate";
+import { latinNumber } from "../../global-composables/utils/LatinNumbers";
 export default {
   name: "VTextInput",
   inheritAttrs: false,
@@ -118,7 +119,7 @@ export default {
       default: false,
     },
   },
-  setup(props: any, { emit }) {
+  setup(props: any, { emit, attrs }) {
     const { renderClass, attrsToBind } = useRenderClass(
       props.area ? "VTextarea" : "VTextInput"
     );
@@ -136,6 +137,11 @@ export default {
         : {}),
       validateOnValueUpdate: false,
     });
+
+    const customHandleChange = (event) => {
+      event.target.value = latinNumber(event.target.value);
+      handleChange(event);
+    };
     watchEffect(() => {
       emit("update:modelValue", unref(inputValue));
     });
@@ -165,6 +171,7 @@ export default {
       inputValue,
       meta,
       inputRef,
+      customHandleChange,
     };
   },
 };
