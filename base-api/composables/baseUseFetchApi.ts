@@ -36,15 +36,18 @@ export const baseUseFetchApi = <R>(authStore:AuthStore,{showToast,getValidationE
                 if (customConfig.debug && process.dev) {
                     throw Error(e);
                 }
-                customConfig.onError?.(e,{ statusMessage: e?.response?.statusText || appConfig['base-api'].defaultErrorMessage,
-                statusCode: e?.response?.status || 500})
-                if (customConfig.ignoreErrors&&  e.response.status !== 401) {
+                if( e.response?.status !== 401){
+                  customConfig.onError?.(e,{ statusMessage: e?.response?.statusText || appConfig['base-api'].defaultErrorMessage,
+                  statusCode: e?.response?.status || 500})
+                }
+                if (customConfig.ignoreErrors&&  e.response?.status !== 401) {
                     return;
                 }
 
                 if (e.response && e.response.status === 401) {
                     return handleRefreshToken(e, url, config, customConfig)?.catch((e) => {
-                        // console.error("error in refresh", e)
+                      customConfig.onError?.(e,{ statusMessage: e?.response?.statusText || appConfig['base-api'].defaultErrorMessage,
+                      statusCode: e?.response?.status || 500})
                         authStore.clearStore();
                         goToLoginIfYouShould(customConfig);
                     }) as unknown as R;

@@ -6,8 +6,8 @@
         "upgradeNuxt": "cd global-composables && npx nuxi upgrade && cd ../base && npx nuxi upgrade && cd ../base-api && npx nuxi upgrade && cd ../base-diasy-ui && npx nuxi upgrade && cd ../diasy-forms && npx nuxi upgrade && cd ../code-generator && npx nuxi upgrade",
         "g": "cd code-generator && yarn plop",
         "upgrade": "cd global-composables && npx nuxi upgrade && cd ../base && npx nuxi upgrade && cd ../base-api && npx nuxi upgrade && cd ../base-diasy-ui && npx nuxi upgrade && cd ../diasy-forms && npx nuxi upgrade",
-        "publish:layers": "cd global-composables && npm publish && cd ../base && npm publish && cd ../base-api && npm publish && cd ../base-diasy-ui && npm publish && cd ../diasy-forms && npm publish && cd ../sentry && npm publish",
-        "version:patch": "cd global-composables && npm version patch && cd ../base && npm version patch && cd ../base-api && npm version patch && cd ../base-diasy-ui && npm version patch && cd ../diasy-forms && npm version patch && cd ../sentry && npm version patch"
+        "publish:layers": "cd global-composables && npm publish && cd ../base && npm publish && cd ../base-api && npm publish && cd ../base-diasy-ui && npm publish && cd ../diasy-forms && npm publish",
+        "version:patch": "cd global-composables && npm version patch && cd ../base && npm version patch && cd ../base-api && npm version patch && cd ../base-diasy-ui && npm version patch && cd ../diasy-forms && npm version patch"
     },
     "devDependencies": {
         "nuxt": "^3.8.1"
