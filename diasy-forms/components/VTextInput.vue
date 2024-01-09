@@ -4,7 +4,7 @@
     :class="
       renderClass('form-control', 'container', {
         'has-error': !!errorMessage,
-        'input-disabled': $attrs.disabled,
+        'input-disabled-container': $attrs.disabled,
         success: meta.valid,
       })
     "
