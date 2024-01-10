@@ -63,7 +63,7 @@ import { useField } from "vee-validate";
 const props = withDefaults(
   defineProps<{
     name: string;
-    options: CurrencyInputOptions;
+    options?: CurrencyInputOptions;
     modelValue?: number;
     focus?: boolean;
     label?: string;
