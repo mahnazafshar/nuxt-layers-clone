@@ -38,19 +38,26 @@
       />
     </template>
     <template v-else>
-      <input
-        ref="inputRef"
-        data-name="input"
-        :class="renderClass('input input-bordered', 'input')"
-        autocomplete="off"
-        v-bind="$attrs"
-        :name="name"
-        :type="type"
-        :value="inputValue"
-        :placeholder="placeholder"
-        @input="customHandleChange"
-        @blur="handleBlur"
-      />
+      <span
+        data-name="input-wrapper"
+        :class="renderClass('relative', 'input-wrapper')"
+      >
+        <slot name="before"></slot>
+        <input
+          ref="inputRef"
+          data-name="input"
+          :class="renderClass('input input-bordered w-full', 'input')"
+          autocomplete="off"
+          v-bind="$attrs"
+          :name="name"
+          :type="type"
+          :value="inputValue"
+          :placeholder="placeholder"
+          @input="customHandleChange"
+          @blur="handleBlur"
+        />
+        <slot name="after"></slot>
+      </span>
     </template>
 
     <slot name="messageLabel">

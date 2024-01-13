@@ -108,8 +108,9 @@ export default {
     const setChildrenRef = (el: HTMLInputElement, index: number) => {
       if (el) childrenRef.value[index] = el;
     };
-    onMounted(() => {
+    onMounted(async () => {
       if (props.autoFocus) {
+        await nextTick();
         childrenRef?.value[0]?.focus();
       }
     });
