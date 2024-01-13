@@ -35,62 +35,67 @@
           </svg>
         </div>
       </div>
-      <nav
-        ref="navRef"
-        data-name="nav"
-        :class="
-          renderClass(
-            'flex items-center flex-row max-w-full overflow-x-auto scrollbar-hidden py-1 select-none',
-            'nav'
-          )
-        "
+      <div
+        data-name="navContainer"
+        :class="renderClass('w-full', 'navContainer')"
       >
-        <div
-          ref="startItem"
-          data-name="startItem"
-          :class="renderClass('w-1 h-1 px-1', 'startItem')"
-        ></div>
-        <template v-if="hasTitleSlot">
+        <nav
+          ref="navRef"
+          data-name="nav"
+          :class="
+            renderClass(
+              'flex items-center flex-row max-w-full overflow-x-auto scrollbar-hidden py-1 select-none',
+              'nav'
+            )
+          "
+        >
           <div
+            ref="startItem"
+            data-name="startItem"
+            :class="renderClass('w-1 h-1 px-1', 'startItem')"
+          ></div>
+          <template v-if="hasTitleSlot">
+            <div
+              v-for="(tab, index) in tabs"
+              :key="`${index}-${tab.props.title}`"
+              @click="selectTab(index, tab, $event)"
+            >
+              <slot
+                name="title"
+                :selected="index === selectedIndex"
+                :title="tab.props.title"
+                v-bind="tab.props"
+              ></slot>
+            </div>
+          </template>
+          <button
+            v-else
             v-for="(tab, index) in tabs"
             :key="`${index}-${tab.props.title}`"
+            :data-value="tab.props.value || index"
             @click="selectTab(index, tab, $event)"
+            data-name="header"
+            type="button"
+            :class="[
+              renderClass(
+                `${
+                  index === selectedIndex
+                    ? `text-${variant} border-b-2 font-medium border-${variant}`
+                    : ''
+                } text-gray-600 min-w-max py-4 px-6 block  md:hover:text-blue-500 focus:outline-none`,
+                'header'
+              ),
+            ]"
           >
-            <slot
-              name="title"
-              :selected="index === selectedIndex"
-              :title="tab.props.title"
-              v-bind="tab.props"
-            ></slot>
-          </div>
-        </template>
-        <button
-          v-else
-          v-for="(tab, index) in tabs"
-          :key="`${index}-${tab.props.title}`"
-          :data-value="tab.props.value || index"
-          @click="selectTab(index, tab, $event)"
-          data-name="header"
-          type="button"
-          :class="[
-            renderClass(
-              `${
-                index === selectedIndex
-                  ? `text-${variant} border-b-2 font-medium border-${variant}`
-                  : ''
-              } text-gray-600 min-w-max py-4 px-6 block  md:hover:text-blue-500 focus:outline-none`,
-              'header'
-            ),
-          ]"
-        >
-          {{ tab.props.title }}
-        </button>
-        <div
-          ref="endItem"
-          :class="renderClass('w-1 h-1 px-1', 'endItem')"
-        ></div>
-        <slot name="append"></slot>
-      </nav>
+            {{ tab.props.title }}
+          </button>
+          <div
+            ref="endItem"
+            :class="renderClass('w-1 h-1 px-1', 'endItem')"
+          ></div>
+          <slot name="append"></slot>
+        </nav>
+      </div>
       <div v-if="showArrows" @click="onScrollLeft">
         <template v-if="hasLeftArrowSlot">
           <slot name="arrowLeft" :disabled="endIntersecting"></slot>
