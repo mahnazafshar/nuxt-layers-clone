@@ -232,4 +232,7 @@ because we check auth routes client side make sure for auth routes your pages ar
     </template>
   </div>
 </template>
+<script setup lang="ts">
+const {isAuthRoute}=useIsAuthRoute()
+</script>
 ```
