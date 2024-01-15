@@ -1,7 +1,7 @@
 import { useEventListener } from "@vueuse/core";
 import gsap from "gsap";
 
-export const useDraggableSmoother = (el, { getValidX, onComplete, onStart }) => {
+export const useDraggableSmoother = (el, { getValidX, onComplete, onReleased, onStart }) => {
   let draggable = unref(el);
 
   let mouseIsDown = false;
@@ -68,10 +68,16 @@ export const useDraggableSmoother = (el, { getValidX, onComplete, onStart }) => 
     //   alert(speedY)
     // }
     if (mouseIsDown) {
+      console.log("mouseIsDown",mouseIsDown)
       //if mouse was down on draggable area
       anim?.kill();
       const currentX = +gsap.getProperty(unref(el), "x");
-
+     const shouldContinue= onReleased?.({speed,distance,distanceY,direction})
+     if(!shouldContinue){
+       mouseIsDown = false
+      onComplete?.();
+      return;
+     }
       if (speed>4 && distance>1 && (distanceY<30||distance>10||speed>10)) {
         //don't animate if click
         const num=speed>9 ? speed/3 : speed*2

@@ -396,6 +396,7 @@ export default defineComponent({
     );
     const clickNext = (duration = -1) => {
       if (props.slider) {
+        console.log("unref(middleItemRef.value)", unref(middleItemRef.value));
         setActiveIndexMiddle(unref(middleItemRef.value) + 1, duration);
         return;
       }
@@ -404,9 +405,9 @@ export default defineComponent({
       const plusX = unref(el)!.clientWidth;
       setX(getValidX(unref(isRtl) ? +currentX + plusX : +currentX - plusX));
     };
-    const clickPrev = () => {
+    const clickPrev = (duration = -1) => {
       if (props.slider) {
-        setActiveIndexMiddle(unref(middleItemRef.value) - 1);
+        setActiveIndexMiddle(unref(middleItemRef.value) - 1, duration);
         return;
       }
       const { el } = getConfig();
@@ -447,8 +448,22 @@ export default defineComponent({
               isDragging = false;
             }, props.autoPlayInterval);
             // myDraggable[0].enable();
-            setMiddleIfIsSlider();
             onAnimationComplete();
+          },
+          onReleased({ speed, distance, distanceY, direction }) {
+            if (!props.slider) {
+              return true;
+            }
+            if (speed > 8 && distance > 8 && distanceY < 30) {
+              if (direction == "right") {
+                clickNext(0.2);
+              } else {
+                clickPrev(0.2);
+              }
+            } else {
+              setMiddleIfIsSlider();
+            }
+            return false;
           },
         });
         useEventListener(window, "resize", recalculate);
