@@ -193,3 +193,43 @@ export const useCartListService = () => {
   },{setToken:true});
 }
 ```
+
+## CheckAuthRoutes (optional)
+first make sure using pinia for authStore and your composable name is exactly `useAuthStore` and [auto import](https://pinia.vuejs.org/ssr/nuxt.html#Auto-imports) by nuxt, then inside app.config.ts in your root project:
+
+```javascript
+export default defineAppConfig({
+  'base-api': {//use for default error message when statusMessage is not specified
+    defaultErrorMessage: 'خطای دریافت اطلاعات از سرور'
+  },
+  
+  authRoute: "/some-landing-page", //first priority for redirect for auth.global.ts
+  loginRoute: "/login", //login route considered if authRoute not defined
+  authRoutes: [
+    // "/shipping",
+    { regex: [/^((?!complete-information|page\/*|order-in-person|contact-us|about-us|home|validation|landing|login|oauth\/callback).)*$/.source] },//array of regex this example all routes is auth routes exept mentioned one
+  ],
+  targetAuthPathKey: "--login-path-useCookie--", //const targetPath=useCookie(appConfig.targetAuthPathKey) if you need redirect user after logged in to his desier route
+})
+```
+because we check auth routes client side make sure for auth routes your pages are rendering client side in order to avoid server side rendered html show and then redirect:
+
+```javascript
+//app.vue
+<template>
+  <div>
+    <template v-if="isAuthRoute($route.path)">
+      <client-only>
+        <nuxt-layout>
+          <nuxt-page></nuxt-page>
+        </nuxt-layout>
+      </client-only>
+    </template>
+    <template v-else>
+      <nuxt-layout>
+        <nuxt-page></nuxt-page>
+      </nuxt-layout>
+    </template>
+  </div>
+</template>
+```

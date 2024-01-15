@@ -68,7 +68,7 @@ export const useDraggableSmoother = (el, { getValidX, onComplete, onReleased, on
     //   alert(speedY)
     // }
     if (mouseIsDown) {
-      console.log("mouseIsDown",mouseIsDown)
+      // console.log("mouseIsDown",mouseIsDown)
       //if mouse was down on draggable area
       anim?.kill();
       const currentX = +gsap.getProperty(unref(el), "x");

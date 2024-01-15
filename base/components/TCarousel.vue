@@ -396,7 +396,6 @@ export default defineComponent({
     );
     const clickNext = (duration = -1) => {
       if (props.slider) {
-        console.log("unref(middleItemRef.value)", unref(middleItemRef.value));
         setActiveIndexMiddle(unref(middleItemRef.value) + 1, duration);
         return;
       }
