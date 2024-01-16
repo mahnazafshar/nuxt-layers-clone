@@ -102,7 +102,18 @@ export const useAuthStore = defineStore('auth', {
 })
 
 ```
+## load token to user store
+we strongly recommend avoid load token server side, you don't need it in the server, the reason for this is you can cache any page you want without concerning about caching specific user token for all users!
+create a client plugin:
+```javascript
+//auth.client.ts
+import { useAuthStore } from "../composables/auth/Auth.store"
+export default defineNuxtPlugin(({ pinia }) => {
+    const authStore = useAuthStore(pinia)
+    authStore.initialStateFromLocalStore()
+})
 
+```
 
 ## wrap main composable
 
