@@ -3,6 +3,7 @@ import { useIntersectInfiniteScroll } from "./useInfinitScroll";
 
 export const useLoadMore=(data:Ref<WithPagination<any>>,getList:(page:number)=>Promise<Ref<WithPagination<any>>>)=>{
   const appending=ref(false);
+  const isLastPage=computed(()=>unref(data)&&unref(data)._meta.currentPage>=unref(data)._meta.pageCount)
   const callback=()=>{
     if(appending.value){
       return;
@@ -10,7 +11,7 @@ export const useLoadMore=(data:Ref<WithPagination<any>>,getList:(page:number)=>P
     if(!unref(data)?._meta){
       return;
     }
-    if(unref(data)._meta.currentPage>=unref(data)._meta.pageCount){
+    if(unref(isLastPage)){
       return;
     }
     const page=unref(data)._meta.currentPage+1;
@@ -25,6 +26,5 @@ export const useLoadMore=(data:Ref<WithPagination<any>>,getList:(page:number)=>P
     })
   }
   const {target}=useIntersectInfiniteScroll(callback);
-
-  return {target,appending}
+  return {target,appending,isLastPage}
 }

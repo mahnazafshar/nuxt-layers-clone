@@ -14,5 +14,5 @@ export const useWatchQuery=(onChange:Function,{ignore}:{ignore:string[]}={ignore
     if(JSON.stringify(value)!=JSON.stringify(oldValue)){
       onChange(value,oldValue);
     }
-  },{debounce:200})
+  },{debounce:200,deep:true})
 }

@@ -1,9 +1,15 @@
 <template>
   <div
     data-name="container"
-    :class="renderClass('flex flex-col items-center space-y-4', 'container')"
+    :class="
+      renderClass(
+        !moveContentOut ? 'flex flex-col items-center space-y-4' : '',
+        'container'
+      )
+    "
     v-bind="attrsToBind"
   >
+    <slot name="prepend"></slot>
     <div
       data-name="headerContainer"
       :class="renderClass('flex max-w-full items-center', 'headerContainer')"
@@ -80,7 +86,7 @@
               renderClass(
                 `${
                   index === selectedIndex
-                    ? `text-${variant} border-b-2 font-medium border-${variant}`
+                    ? `border-b-2 font-medium t-tab-active-title`
                     : ''
                 } text-gray-600 min-w-max py-4 px-6 block  md:hover:text-blue-500 focus:outline-none`,
                 'header'
@@ -124,9 +130,12 @@
         </div>
       </div>
     </div>
-    <div class="w-full">
+    <div class="w-full" v-if="!moveContentOut">
       <slot></slot>
     </div>
+  </div>
+  <div class="w-full" v-if="moveContentOut">
+    <slot></slot>
   </div>
 </template>
 
@@ -153,9 +162,9 @@ export default defineComponent({
       type: Boolean,
       default: () => inject("t-tabs-arrows", false),
     },
-    variant: {
-      type: String,
-      default: () => inject("t-tabs-variant", "primary"),
+    moveContentOut: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { slots, emit }) {
