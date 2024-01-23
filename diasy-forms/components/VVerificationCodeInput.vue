@@ -126,8 +126,8 @@ export default {
         code.value[index] = parseInt(e.data as string);
       }
       if (unref(activityIndex) <= props.length - 1) {
-        childrenRef.value[unref(activityIndex)].focus();
-        childrenRef.value[unref(activityIndex)].select();
+        childrenRef.value[unref(activityIndex)]?.focus();
+        childrenRef.value[unref(activityIndex)]?.select();
       }
     }
     function enterKey() {

@@ -163,12 +163,13 @@ export default {
     );
 
     const inputRef = ref();
-    onMounted(() => {
+    onMounted(async () => {
+      await nextTick();
       if (props.select) {
-        inputRef.value.select();
+        inputRef.value?.select();
       }
       if (props.focus) {
-        inputRef.value.focus();
+        inputRef.value?.focus();
       }
     });
 

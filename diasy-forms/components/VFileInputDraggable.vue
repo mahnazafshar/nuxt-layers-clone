@@ -8,7 +8,7 @@
       data-name="label"
       :class="
         renderClass(
-          `block relative overflow-hidden rounded border border-4 h-24 border-dotted flex-1 `,
+          `block relative overflow-hidden rounded border border-4 h-24 border-dashed flex-1 `,
           'label'
         )
       "
@@ -45,16 +45,18 @@
           </span>
         </slot>
       </span>
-      <div v-else class="relative">
+      <div v-else class="relative h-full">
         <slot name="preview" :files="files" :src="getImageUrl">
-          <img :src="getImageUrl" alt="" />
+          <div class="h-full flex justify-center items-center">
+            <img :src="getImageUrl" alt="" />
+          </div>
         </slot>
         <div
           data-name="delete"
           v-if="fileName"
           :class="
             renderClass(
-              'tw-flex absolute top-0 left-0 tw-cursor-pointer',
+              'tw-flex absolute top-2 left-2 tw-cursor-pointer',
               'delete'
             )
           "
@@ -128,7 +130,7 @@ const handleInput = ($e: any) => {
     props.multiple ? $e.target.files : $e.target.files[0]
   );
   files.value = Array.from($e.target.files);
-  fileName.value = $e.target.files[0].name;
+  fileName.value = files.value[0].name;
 };
 
 watch(files, (newFiles) => {
