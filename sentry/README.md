@@ -32,6 +32,12 @@ config your dsn:
       sentry: {
         dsn: 'your dsn here',
         environment: 'development' // 'production',
+        serverOptions:{
+          //sentry.init options for server side
+        },
+        clientOptions:{//sentry.init options for client side
+           tracePropagationTargets: ['localhost', 'https://your-server.com'],
+        }
       }
     }
   }

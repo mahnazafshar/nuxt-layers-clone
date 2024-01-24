@@ -22,6 +22,7 @@ export default defineNitroPlugin((nitroApp) => {
     tracesSampleRate: 0.2,
     // Set sampling rate for profiling - this is relative to tracesSampleRate
     profilesSampleRate: 0.2,
+    ...(sentry.serverOptions?sentry.serverOptions:{})
   })
 
   nitroApp.hooks.hook('error', (error) => {

@@ -28,5 +28,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     replaysSessionSampleRate: 1.0, // Change in prod
     replaysOnErrorSampleRate: 1.0, // Change in prod if necessary
+    ...(sentry.clientOptions?sentry.clientOptions:{})
   })
 })
