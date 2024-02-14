@@ -11,5 +11,6 @@ export default defineNuxtConfig({
       }
     }
   },
-  devtools: { enabled: true }
+  devtools: { enabled: true },
+  build:{transpile:['@sentry/vue']}
 })

@@ -10,7 +10,7 @@
       data-name="form"
       :class="renderClass('modal-box', 'form')"
     >
-      <template v-if="eager || modelValue">
+      <template v-if="showContent">
         <div
           data-name="headerWrapper"
           :class="renderClass('', 'headerWrapper')"
@@ -79,6 +79,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    shallowEager: {
+      type: Boolean,
+      default: false,
+    },
     responsiveClass: {
       type: [String, Array],
       default: () =>
@@ -97,7 +101,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const { renderClass, attrsToBind } = useRenderClass("DModal");
     const dialogRef = ref<HTMLDialogElement>();
+    let openedOnce = false;
     const showModal = () => {
+      openedOnce = true;
       dialogRef.value?.showModal();
     };
     const closeModal = () => {
@@ -122,7 +128,12 @@ export default defineComponent({
       }
     });
 
-    return { dialogRef, renderClass, attrsToBind };
+    const showContent = computed(
+      () =>
+        props.eager || props.modelValue || (props.shallowEager && openedOnce)
+    );
+
+    return { dialogRef, renderClass, attrsToBind, showContent };
   },
 });
 </script>

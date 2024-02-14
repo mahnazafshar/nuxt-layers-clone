@@ -11,5 +11,6 @@ export interface FetchCustomConfig {
     beforeResponse?: Function;
     debug?: boolean;
     toastValidationFields?: string[];
-    messageByStatus?:Record<number,string>
+    messageByStatus?:Record<number,string>;
+    ignoreRefreshToken?:boolean
 }

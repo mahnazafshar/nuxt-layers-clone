@@ -15,7 +15,6 @@
       v-bind="attrsToBind"
     >
       <input
-        :id="id"
         data-name="input"
         type="file"
         :accept="accept"
@@ -102,15 +101,13 @@
 interface Props {
   modelValue?: string;
   name: string;
-  id?: string;
   accept?: string;
   multiple?: boolean;
   wrapperClass?: string;
   successMessage?: string;
-  title: string;
+  title?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  id: "drag",
   accept: "image/*",
   multiple: false,
   wrapperClass: "",
@@ -129,8 +126,8 @@ const handleInput = ($e: any) => {
     "update:modelValue",
     props.multiple ? $e.target.files : $e.target.files[0]
   );
-  files.value = Array.from($e.target.files);
-  fileName.value = files.value[0].name;
+  files.value = Array.from($e.target.files) || [];
+  fileName.value = files.value[0]?.name || "";
 };
 
 watch(files, (newFiles) => {

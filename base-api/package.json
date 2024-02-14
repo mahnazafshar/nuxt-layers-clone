@@ -1,7 +1,7 @@
 {
   "name": "@avapardaz/base-api",
   "type": "module",
-  "version": "0.1.44",
+  "version": "0.1.47",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -14,7 +14,7 @@
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",
     "eslint": "^8.28.0",
-    "nuxt": "^3.9.1",
+    "nuxt": "^3.10.0",
     "typescript": "^4.9.3"
   }
 }

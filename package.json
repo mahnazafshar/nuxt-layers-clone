@@ -10,6 +10,6 @@
         "version:patch": "cd global-composables && npm version patch && cd ../base && npm version patch && cd ../base-api && npm version patch && cd ../base-diasy-ui && npm version patch && cd ../diasy-forms && npm version patch"
     },
     "devDependencies": {
-        "nuxt": "^3.8.1"
+        "nuxt": "^3.10.0"
     }
 }

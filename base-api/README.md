@@ -148,13 +148,6 @@ export const useFetchApi = <R, T = {}>(classTransformer: ClassConstructor<T> = n
     baseURL: 'your base url'
   });
   return (url: string, config: FetchOptions = {}, customConfig: FetchCustomConfig = {}) => {
-    if (customConfig.setToken) {
-      if (!config.headers) {
-        config.headers = {}
-      }
-      //@ts-ignore
-      config.headers['Authorization'] = `Bearer ${authStore.getToken}`
-    }
     if (config.params) {//format query params with qs package optioanl
       url = url + '?' + qs.stringify(config.params)
       delete config.params;
