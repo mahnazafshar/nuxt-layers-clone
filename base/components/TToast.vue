@@ -11,13 +11,19 @@
     v-bind="attrsToBind"
   >
     <slot name="default" :close="close" v-bind="toastRef">
-      {{ toastRef.message }}
+      <template v-if="isVNode(toastRef.message)">
+        <component :is="toastRef.message" />
+      </template>
+      <template v-else>
+        {{ toastRef.message }}
+      </template>
     </slot>
   </div>
 </template>
 
 <script setup lang="ts">
 //bg-primary bg-warning bg-error
+import { isVNode } from "vue";
 import gsap from "gsap";
 const props = withDefaults(defineProps<{ key: string }>(), {
   key: "--toast--",

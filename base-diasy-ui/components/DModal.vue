@@ -25,7 +25,10 @@
               )
             "
           >
-            <div v-html="closeIcon"></div>
+            <template v-if="isVNode(closeIcon)">
+              <component :is="closeIcon" />
+            </template>
+            <div v-else v-html="closeIcon"></div>
           </button>
           <h3
             v-if="title"
@@ -57,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRef, watch } from "vue";
+import { defineComponent, ref, isVNode, watch } from "vue";
 import { useEventListener } from "@vueuse/core";
 export default defineComponent({
   name: "AppModal",
@@ -68,7 +71,7 @@ export default defineComponent({
       default: false,
     },
     closeIcon: {
-      type: String,
+      type: [String, Object],
       default: () => inject("d-modal-close-icon", "✕"),
     },
     title: {
@@ -133,7 +136,7 @@ export default defineComponent({
         props.eager || props.modelValue || (props.shallowEager && openedOnce)
     );
 
-    return { dialogRef, renderClass, attrsToBind, showContent };
+    return { dialogRef, renderClass, attrsToBind, showContent, isVNode };
   },
 });
 </script>
