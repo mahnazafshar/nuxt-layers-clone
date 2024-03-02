@@ -8,7 +8,7 @@
       renderClass('collapse', 'container', {
         'collapse-arrow': hasArrow,
         'collapse-plus': hasPlus,
-        'collapse-open': forceOpen,
+        'collapse-open': forceOpen || modelValue,
         'collapse-close': forceClose,
       })
     "

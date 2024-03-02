@@ -12,6 +12,7 @@
       <slot
         :name="isRtl ? 'next' : 'prev'"
         :activator="isRtl ? clickNext : clickPrev"
+        :disabled="isRtl ? clickNextIsDisabled : clickPrevIsDisabled"
       >
         <button
           :data-name="isRtl ? 'next' : 'prev'"
@@ -46,6 +47,7 @@
       <slot
         :name="isRtl ? 'prev' : 'next'"
         :activator="isRtl ? clickPrev : clickNext"
+        :disabled="isRtl ? clickPrevIsDisabled : clickNextIsDisabled"
       >
         <button
           :data-name="isRtl ? 'prev' : 'next'"
