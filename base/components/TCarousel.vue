@@ -222,7 +222,8 @@ export default defineComponent({
     };
     const clickNextIsDisabled = ref(false);
     const clickPrevIsDisabled = ref(false);
-    const onAnimationComplete = () => {
+
+    const toggleNextPrevDisabled = () => {
       if (props.slider) {
         clickNextIsDisabled.value =
           unref(middleItemRef.value) == props.items.length - 1;
@@ -234,6 +235,9 @@ export default defineComponent({
         clickPrevIsDisabled.value = x == 0;
       }
     };
+    onMounted(() => {
+      toggleNextPrevDisabled();
+    });
     const getX = () => {
       const { el } = getConfig();
       if (unref(shouldUseNativeScroll)) {
@@ -252,7 +256,7 @@ export default defineComponent({
           overwrite: true,
           ...props.config,
           ...(duration > 0 ? { duration } : {}),
-          onComplete: onAnimationComplete,
+          onComplete: toggleNextPrevDisabled,
         });
       }
     };
@@ -449,7 +453,7 @@ export default defineComponent({
               isDragging = false;
             }, props.autoPlayInterval);
             // myDraggable[0].enable();
-            onAnimationComplete();
+            toggleNextPrevDisabled();
           },
           onReleased({ speed, distance, distanceY, direction }) {
             if (!props.slider) {
