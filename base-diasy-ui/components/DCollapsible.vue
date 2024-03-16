@@ -14,18 +14,24 @@
     "
     v-bind="attrsToBind"
   >
-    <input
+    <!-- <input
       v-if="canToggle"
       value=""
       type="checkbox"
       :checked="modelValue"
+      @click="toggleModelValue"
       data-name="checkbox"
-      :class="renderClass('peer', 'checkbox')"
-    />
+      :class="renderClass('peer cursor-pointer', 'checkbox')"
+    /> -->
     <component
       :is="hasAnimation ? 'div' : 'summary'"
       data-name="title"
-      :class="renderClass(`collapse-title ${titleClass}`, 'title')"
+      :class="
+        renderClass(`collapse-title ${titleClass}`, 'title', {
+          'cursor-pointer': canToggle,
+        })
+      "
+      @click="toggleModelValue"
     >
       <slot name="title">
         {{ title }}
@@ -81,4 +87,7 @@ watch(
     emit("update:modelValue", value);
   }
 );
+const toggleModelValue = () => {
+  props.canToggle && emit("update:modelValue", !props.modelValue);
+};
 </script>
