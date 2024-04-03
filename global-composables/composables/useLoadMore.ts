@@ -18,6 +18,10 @@ export const useLoadMore=(data:Ref<WithPagination<any>>,getList:(page:number)=>P
     appending.value=true;
     return getList(page).then((response)=>{
       if(response?.items){
+        if(!data.value){
+          data.value={}
+          data.value.items=[]
+        }
         data.value.items=[...data.value.items,...response.items]
         data.value._meta=response._meta
       }
