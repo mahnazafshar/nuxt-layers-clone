@@ -25,8 +25,8 @@ export const baseUseFetchApi = <R>(authStore: AuthStore, { showToast, getValidat
         if (customConfig.setToken) {
             config = authStore.addTokenToConfig(config)
         }
-        if(isDevMode&&customConfig.setErrors && typeof customConfig.setErrors!='function'){
-          alert("setErrors, that you passed to fetchApi, should be a function my friend!")
+        if(customConfig.setErrors && typeof customConfig.setErrors!='function'){
+          console.error("setErrors, that you passed to fetchApi, should be a function my friend!")
         }
 
         //@ts-ignore
@@ -66,7 +66,7 @@ export const baseUseFetchApi = <R>(authStore: AuthStore, { showToast, getValidat
                 } else if (e.response && e.response.status == 422) {
                     // console.log("setErrors", customConfig.setErrors);
                     // console.log("getValidationErrors()", getValidationErrors())
-                    if (customConfig.setErrors) {
+                    if (customConfig.setErrors&& typeof customConfig.setErrors=='function') {
                         customConfig.setErrors(getValidationErrors(e))
                     }
                     if (customConfig.onValidationFailed) {
