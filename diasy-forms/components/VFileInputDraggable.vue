@@ -8,7 +8,7 @@
       data-name="label"
       :class="
         renderClass(
-          `block relative overflow-hidden rounded border border-4 h-24 border-dashed flex-1 `,
+          `block relative p-4 rounded border border-4 h-24 border-dashed flex-1 `,
           'label'
         )
       "
@@ -44,37 +44,42 @@
           </span>
         </slot>
       </span>
-      <div v-else class="relative h-full">
+      <div v-else class="relative h-full overflow-hidden rounded-md">
         <slot name="preview" :files="files" :src="getImageUrl">
           <div class="h-full flex justify-center items-center">
             <img :src="getImageUrl" alt="" />
           </div>
         </slot>
-        <div
-          data-name="delete"
-          v-if="fileName"
-          :class="
-            renderClass(
-              'tw-flex absolute top-2 left-2 tw-cursor-pointer',
-              'delete'
-            )
-          "
-          @click.stop.prevent="onDelete"
-        >
-          <slot name="deleteFile">
-            <button
-              data-name="delete"
-              :class="
-                renderClass(
-                  'btn btn-sm btn-circle btn-error text-white',
-                  'delete'
-                )
-              "
-            >
-              ✕
-            </button>
-          </slot>
-        </div>
+        <template v-if="fileName">
+          <template v-if="deleteIcon">
+            <component @click.stop.prevent="onDelete" :is="deleteIcon" />
+          </template>
+          <div
+            v-else
+            data-name="delete"
+            :class="
+              renderClass(
+                'tw-flex absolute top-2 left-2 tw-cursor-pointer',
+                'delete'
+              )
+            "
+            @click.stop.prevent="onDelete"
+          >
+            <slot name="deleteFile">
+              <button
+                data-name="delete"
+                :class="
+                  renderClass(
+                    'btn btn-sm btn-circle btn-error text-white',
+                    'delete'
+                  )
+                "
+              >
+                ✕
+              </button>
+            </slot>
+          </div>
+        </template>
       </div>
     </label>
     <label
@@ -106,6 +111,7 @@ interface Props {
   wrapperClass?: string;
   successMessage?: string;
   title?: string;
+  deleteIcon?: any;
 }
 const props = withDefaults(defineProps<Props>(), {
   accept: "image/*",
@@ -114,7 +120,7 @@ const props = withDefaults(defineProps<Props>(), {
   successMessage: () => inject("v-file-input-draggable-text-success-msg", ""),
   title: "فایل را اینجا رها کنید...",
 });
-
+const deleteIcon = inject("v-file-input-draggable-delete-icon");
 const imageUrl = ref<Blob | MediaSource>();
 const files = ref([]);
 const fileName = ref("");
