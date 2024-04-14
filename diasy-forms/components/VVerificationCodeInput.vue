@@ -92,6 +92,10 @@ export default {
       validateOnValueUpdate: false,
     });
     watchEffect(() => {
+      const newInput = unref(inputValue)?.toString()?.split("");
+      for (let i = 0; i < newInput?.length; i++) {
+        code.value[i] = parseInt(newInput[i]);
+      }
       emit("update:modelValue", unref(inputValue));
     });
     watch(
