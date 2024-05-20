@@ -99,7 +99,12 @@
               itemContainerClass,
             ]"
           >
-            <slot name="item" :item="item" :index="index" />
+            <slot
+              name="item"
+              :middle="middleItemRef"
+              :item="item"
+              :index="index"
+            />
           </div>
         </template>
       </div>
