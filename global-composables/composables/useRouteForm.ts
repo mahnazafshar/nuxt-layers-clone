@@ -18,7 +18,11 @@ const removeEmpty = (obj:Record<string, any>) => {
 export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,any>={})=>{
     const route=useRoute();
     const routeParams=Object.keys(route.params)
-    const { handleSubmit, values,setValues,setFieldValue,meta,resetForm } = useForm({initialValues:{...initialValues,...route.query,...route.params}});
+    const initial=computed(()=>({...initialValues,...route.query,...route.params}))
+    const { handleSubmit, values,setValues,resetForm,setFieldValue,meta } = useForm({initialValues:unref(initial)});
+   const resetToInitial=()=>{
+       resetForm({values:unref(initial)},{force:true})
+   }
     const resetValues=()=>{
         Object.keys(unref(values)).forEach((value)=>{
             setFieldValue(value,undefined)
@@ -63,7 +67,6 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
                 delete newParams[key];
             }
         }
-        // console.log("setValues called",newParams)
         return new Promise((resolve)=>{
             navigateTo({
                 params:newParams,
@@ -78,7 +81,7 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
     }
     watch(()=>route.query,()=>{
         if(changeRouteOutSideTheForm){
-            resetForm()
+            resetToInitial()
         }
     })
 
@@ -111,5 +114,5 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
 
 
 
-    return {handleSubmit,values,setValues,setFieldValue,setValuesToRoute,resetForm,resetValues}
+    return {handleSubmit,values,setValues,setFieldValue,setValuesToRoute,resetForm,resetValues,resetToInitial}
 }
