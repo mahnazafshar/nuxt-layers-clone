@@ -38,6 +38,7 @@
         >
           <slot
             name="title"
+            :item="item"
             :title="item.title"
             :isOpen="selectedIndex === index"
             :index="index"
@@ -51,6 +52,7 @@
         >
           <slot
             name="content"
+            :item="item"
             :content="item.content"
             :isOpen="selectedIndex === index"
             :index="index"
