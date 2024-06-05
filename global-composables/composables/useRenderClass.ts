@@ -206,6 +206,10 @@ export enum Direction {
 export const useRenderClass = (componentName: string) => {
   const TSettings = inject<TSettings>("TSettings");
   const instance = getCurrentInstance();
+  const attributes=ref(instance?.attrs)
+  onBeforeUpdate(()=>{
+    attributes.value={...instance?.attrs}
+  })
   const getSettings = (elementName): TSettingItem | null => {
     let combinedSettings: TSettingItem | undefined ={...TSettings?.[componentName]?.[elementName]};
     const dataDelete = instance?.attrs?.[`data-${elementName}-delete`];
@@ -260,7 +264,7 @@ export const useRenderClass = (componentName: string) => {
   }
 
   const attrsToBind = computed(() => {
-    const attrs = { ...instance.attrs };
+    const attrs = { ...unref(attributes) };
     for (const key in attrs) {
       if (key.endsWith("-add") || key.endsWith("-delete")) {
         delete attrs[key];

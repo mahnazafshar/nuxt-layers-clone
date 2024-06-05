@@ -16,7 +16,7 @@
         )
       "
     >
-      <template v-if="activeOnce || eager">
+      <template v-if="(activeOnce && shallowEager) || isActive || eager">
         <slot :isActive="isActive" :index="index"></slot>
       </template>
     </div>
@@ -24,14 +24,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  watch,
-  onBeforeMount,
-  inject,
-  watchEffect,
-} from "vue";
+import { defineComponent, ref, watch, inject, watchEffect } from "vue";
 import type { TabProvider } from "./TTabs.vue";
 export default defineComponent({
   name: "TTabItem",
@@ -40,6 +33,10 @@ export default defineComponent({
     eager: {
       type: Boolean,
       default: false,
+    },
+    shallowEager: {
+      type: Boolean,
+      default: true,
     },
     title: {
       type: String,

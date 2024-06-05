@@ -13,8 +13,22 @@ const removeEmpty = (obj:Record<string, any>) => {
         if (obj[key] === Object(obj[key])) newObj[key] = removeEmpty(obj[key]);
         else if (obj[key] !== undefined) newObj[key] = obj[key];
     });
+    //removeRemainedEmptyObjects
+   for(const key in newObj){
+    const value=newObj[key]
+    if(typeof value=='object'&&Object.keys(value).length === 0){
+        delete newObj[key]
+    }
+   }
     return newObj;
 };
+const sortObject = (o:Record<string,any>) => Object.keys(o).sort().reduce((r:any, k) => (r[k] = o[k], r), {})
+const isEqualObjects=(o1:Record<string,any>,o2:Record<string,any>)=>{
+    // console.log("sortObject(o1)",sortObject(o1))
+    // console.log("sortObject(o2)",sortObject(o2))
+    // console.log("isEqual****************",JSON.stringify(sortObject(o1))===JSON.stringify(sortObject(o2)))
+    return JSON.stringify(sortObject(o1))===JSON.stringify(sortObject(o2))
+}
 export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,any>={})=>{
     const route=useRoute();
     const routeParams=Object.keys(route.params)
@@ -38,7 +52,6 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
                 query[key]=unref(values)[key]
             }
         }
-
         return {params:removeEmpty(params),query:removeEmpty(query)}
     })
 
@@ -67,12 +80,17 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
                 delete newParams[key];
             }
         }
+        const queryChanged=!isEqualObjects(route.query,newQuery);
+        if(!paramsChanged&&!queryChanged){
+            return new Promise((resolve)=>{
+                resolve(false)
+            });
+        }
         return new Promise((resolve)=>{
             navigateTo({
                 params:newParams,
                 query:newQuery
             },{...navigateConfig,...(paramsChanged&&config.pushOnParamsChange?{replace:false}:{})}).then((response:any)=>{
-                // console.log("resolved")
                 changeRouteOutSideTheForm=true;
                 resolve(response==undefined)
             })
@@ -88,13 +106,13 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
     watchDebounced(
         values,
         () => {
+            // console.log("changeRouteOutSideTheForm",changeRouteOutSideTheForm)
             if(meta.value.dirty){
                 onChange();
             }
         },
         { deep: true,debounce:200 }
     );
-
 
 
     // const initialPath=useState(route.name+'--pause-route',()=>route.path)
