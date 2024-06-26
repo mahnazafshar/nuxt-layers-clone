@@ -15,9 +15,10 @@ interface AuthStore {
     isRefreshSuccess: boolean;
     doRefreshToken: () => void;
     addTokenToConfig: (config: Record<string, any>) => Record<string, any>;
+    initialStateFromLocalStore:()=>void
 }
 export const baseUseFetchApi = <R>(authStore: AuthStore, { showToast, getValidationErrors, baseURL = "", authRoute = "/auth" }: BaseConfig) => {
-    const appConfig = useAppConfig();
+  const appConfig = useAppConfig();
     const router = useRouter();
     const myCustomFetch = (url: string, config: FetchOptions = {}, customConfig: FetchCustomConfig = {}) => {
         config = { baseURL, retry: 0, ...config }
@@ -110,6 +111,15 @@ export const baseUseFetchApi = <R>(authStore: AuthStore, { showToast, getValidat
             return new Promise((_, reject) => {
                 reject(e);
             })
+        }
+        const requestedToken=config.headers?.['Authorization'];
+        authStore.initialStateFromLocalStore()
+        authStore.addTokenToConfig(config);
+        const savedToken=config.headers?.['Authorization'];
+        if(requestedToken!=savedToken){//if already refreshed in another tab
+          return new Promise((resolve)=>{
+            resolve(myCustomFetch(url, authStore.addTokenToConfig(config), { ...customConfig, ignoreRefreshToken: true }))
+          })
         }
         if (!authStore.isRefreshing && !authStore.isRefreshSuccess) {
             authStore.doRefreshToken();
