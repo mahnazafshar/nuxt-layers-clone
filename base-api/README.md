@@ -24,6 +24,7 @@ interface AuthStore{
  isRefreshSuccess:boolean;
  doRefreshToken:()=>void;
  addTokenToConfig:(config:Record<string,any>)=>Record<string,any>;
+ initialStateFromLocalStore:()=>void
 }
 ```
 we recommend [Pinia](https://pinia.vuejs.org/)
