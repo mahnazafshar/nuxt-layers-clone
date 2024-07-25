@@ -107,9 +107,7 @@ export const useRouteForm=(onChange=()=>{},initialValues:Record<string|number,an
         values,
         () => {
             // console.log("changeRouteOutSideTheForm",changeRouteOutSideTheForm)
-            if(meta.value.dirty){
                 onChange();
-            }
         },
         { deep: true,debounce:200 }
     );

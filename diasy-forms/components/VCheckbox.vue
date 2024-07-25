@@ -138,6 +138,11 @@ export default {
     });
 
     watchEffect(() => {
+      if (!unref(checked) && unref(inputValue) == props.checkedValue) {
+        setValue(props.checkedValue);
+      }
+    });
+    watchEffect(() => {
       emit("update:modelValue", unref(inputValue));
     });
     watch(

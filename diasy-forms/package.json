@@ -1,15 +1,14 @@
 {
   "name": "@avapardaz/daisy-forms",
   "type": "module",
-  "version": "0.1.67",
+  "version": "0.1.73",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
-    "build": "nuxt build .playground",
-    "generate": "nuxt generate .playground",
-    "preview": "nuxt preview .playground",
+    "build": "nuxi build .playground",
+    "generate": "nuxi generate .playground",
+    "preview": "nuxi preview .playground",
     "lint": "eslint .",
-    "postinstall": "nuxt prepare .playground",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
@@ -27,11 +26,11 @@
     "vitest": "^0.34.6"
   },
   "peerDependencies": {
-    "@avapardaz/global-composables": "^0.1.67",
+    "@avapardaz/global-composables": "^0.1.73",
     "@vueuse/core": "^10.7.0",
     "@vueuse/integrations": "^10.4.1",
     "fuse.js": "^6.6.2",
-    "vee-validate": "^4.12.6",
+    "vee-validate": "^4.13.1",
     "vue-currency-input": "^3.0.5"
   }
 }

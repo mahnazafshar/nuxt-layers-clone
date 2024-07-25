@@ -1,15 +1,14 @@
 {
   "name": "@avapardaz/base-api",
   "type": "module",
-  "version": "0.1.67",
+  "version": "0.1.73",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
-    "build": "nuxt build .playground",
-    "generate": "nuxt generate .playground",
-    "preview": "nuxt preview .playground",
-    "lint": "eslint .",
-    "postinstall": "nuxt prepare .playground"
+    "build": "nuxi build .playground",
+    "generate": "nuxi generate .playground",
+    "preview": "nuxi preview .playground",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",
