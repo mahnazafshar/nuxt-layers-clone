@@ -341,7 +341,7 @@ export default defineComponent({
       let xDistance = childrenRef.value[index].clientWidth;
 
       while (currentX > xDistance || index == props.items.length - 1) {
-        xDistance += childrenRef.value[index].clientWidth;
+        xDistance += childrenRef.value[index]?.clientWidth;
         index++;
       }
       return Math.min(index, props.items.length - 1);
@@ -358,7 +358,7 @@ export default defineComponent({
       let xDistance = childrenRef.value[index].clientWidth;
 
       while (currentX > xDistance || index == props.items.length - 1) {
-        xDistance += childrenRef.value[index].clientWidth;
+        xDistance += childrenRef.value[index]?.clientWidth;
         index++;
       }
       return Math.min(index, props.items.length - 1);
@@ -375,7 +375,7 @@ export default defineComponent({
       let xDistance = childrenRef.value[index].clientWidth;
 
       while (currentX > xDistance || index == props.items.length - 1) {
-        xDistance += childrenRef.value[index].clientWidth;
+        xDistance += childrenRef.value[index]?.clientWidth;
         index++;
       }
       return Math.min(index, props.items.length - 1);
