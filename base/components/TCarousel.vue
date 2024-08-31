@@ -355,7 +355,7 @@ export default defineComponent({
         return 0;
       }
       let index = 0;
-      let xDistance = childrenRef.value[index].clientWidth;
+      let xDistance = childrenRef.value[index]?.clientWidth;
 
       while (currentX > xDistance || index == props.items.length - 1) {
         xDistance += childrenRef.value[index]?.clientWidth;
