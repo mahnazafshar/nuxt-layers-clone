@@ -80,7 +80,10 @@
       </slot>
     </template>
 
-    <div class="overflow-x-hidden">
+    <div
+      data-name="wrapperParent"
+      :class="renderClass('overflow-x-hidden', 'wrapperParent')"
+    >
       <div
         ref="sliderWrapperRef"
         data-name="wrapper"
